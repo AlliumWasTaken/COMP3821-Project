@@ -1,0 +1,1048 @@
+{
+  "title": "Tracing Karger's algorithm on G",
+  "conventions": {
+    "contraction": "G/e merges the endpoints of e into one composite vertex (written as a sorted list of original vertices), keeps parallel edges, removes self-loops.",
+    "edge_choice": "uniform over the edges of the current multigraph, parallel copies counted separately; 'probability' is multiplicity/m (any copy of this pair), 'probability_per_copy' is 1/m.",
+    "edges": "each edge is listed once with u < v (lexicographic on the sorted vertex lists) and a multiplicity",
+    "nulls": "once a min-cut edge has been contracted (trace B from that step on), 'contracts_min_cut_edge' and 'p_avoid_min_cut_this_step' are null: the run is already doomed, so these quantities no longer apply"
+  },
+  "graph": {
+    "vertices": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "f",
+      "g",
+      "h"
+    ],
+    "edges": [
+      [
+        "a",
+        "b"
+      ],
+      [
+        "a",
+        "c"
+      ],
+      [
+        "a",
+        "d"
+      ],
+      [
+        "b",
+        "g"
+      ],
+      [
+        "b",
+        "h"
+      ],
+      [
+        "c",
+        "f"
+      ],
+      [
+        "d",
+        "f"
+      ],
+      [
+        "g",
+        "h"
+      ]
+    ],
+    "n": 7,
+    "m": 8
+  },
+  "min_cut": {
+    "S": [
+      "b",
+      "g",
+      "h"
+    ],
+    "V_minus_S": [
+      "a",
+      "c",
+      "d",
+      "f"
+    ],
+    "k": 1,
+    "cut_edges": [
+      [
+        "a",
+        "b"
+      ]
+    ],
+    "unique": true
+  },
+  "success_probability": {
+    "exact": "9/28",
+    "decimal": 0.321429,
+    "bound_2_over_n_n_minus_1": "1/21"
+  },
+  "trace_A": {
+    "steps": [
+      {
+        "step": 1,
+        "before": {
+          "n": 7,
+          "m": 8
+        },
+        "contract": {
+          "u": [
+            "c"
+          ],
+          "v": [
+            "f"
+          ]
+        },
+        "multiplicity": 1,
+        "probability": "1/8",
+        "probability_per_copy": "1/8",
+        "contracts_min_cut_edge": false,
+        "p_avoid_min_cut_this_step": "7/8",
+        "cases": [
+          "ordinary"
+        ],
+        "self_loops_removed": 0,
+        "parallel_created_via_common_neighbours": [],
+        "new_vertex": [
+          "c",
+          "f"
+        ],
+        "after": {
+          "n": 6,
+          "m": 7,
+          "vertices": [
+            [
+              "a"
+            ],
+            [
+              "b"
+            ],
+            [
+              "c",
+              "f"
+            ],
+            [
+              "d"
+            ],
+            [
+              "g"
+            ],
+            [
+              "h"
+            ]
+          ],
+          "edges": [
+            {
+              "u": [
+                "a"
+              ],
+              "v": [
+                "b"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a"
+              ],
+              "v": [
+                "c",
+                "f"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a"
+              ],
+              "v": [
+                "d"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "b"
+              ],
+              "v": [
+                "g"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "b"
+              ],
+              "v": [
+                "h"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "c",
+                "f"
+              ],
+              "v": [
+                "d"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "g"
+              ],
+              "v": [
+                "h"
+              ],
+              "multiplicity": 1
+            }
+          ]
+        }
+      },
+      {
+        "step": 2,
+        "before": {
+          "n": 6,
+          "m": 7
+        },
+        "contract": {
+          "u": [
+            "b"
+          ],
+          "v": [
+            "h"
+          ]
+        },
+        "multiplicity": 1,
+        "probability": "1/7",
+        "probability_per_copy": "1/7",
+        "contracts_min_cut_edge": false,
+        "p_avoid_min_cut_this_step": "6/7",
+        "cases": [
+          "parallel_edges_created"
+        ],
+        "self_loops_removed": 0,
+        "parallel_created_via_common_neighbours": [
+          [
+            "g"
+          ]
+        ],
+        "new_vertex": [
+          "b",
+          "h"
+        ],
+        "after": {
+          "n": 5,
+          "m": 6,
+          "vertices": [
+            [
+              "a"
+            ],
+            [
+              "b",
+              "h"
+            ],
+            [
+              "c",
+              "f"
+            ],
+            [
+              "d"
+            ],
+            [
+              "g"
+            ]
+          ],
+          "edges": [
+            {
+              "u": [
+                "a"
+              ],
+              "v": [
+                "b",
+                "h"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a"
+              ],
+              "v": [
+                "c",
+                "f"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a"
+              ],
+              "v": [
+                "d"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "b",
+                "h"
+              ],
+              "v": [
+                "g"
+              ],
+              "multiplicity": 2
+            },
+            {
+              "u": [
+                "c",
+                "f"
+              ],
+              "v": [
+                "d"
+              ],
+              "multiplicity": 1
+            }
+          ]
+        }
+      },
+      {
+        "step": 3,
+        "before": {
+          "n": 5,
+          "m": 6
+        },
+        "contract": {
+          "u": [
+            "b",
+            "h"
+          ],
+          "v": [
+            "g"
+          ]
+        },
+        "multiplicity": 2,
+        "probability": "1/3",
+        "probability_per_copy": "1/6",
+        "contracts_min_cut_edge": false,
+        "p_avoid_min_cut_this_step": "5/6",
+        "cases": [
+          "self_loops_removed"
+        ],
+        "self_loops_removed": 1,
+        "parallel_created_via_common_neighbours": [],
+        "new_vertex": [
+          "b",
+          "g",
+          "h"
+        ],
+        "after": {
+          "n": 4,
+          "m": 4,
+          "vertices": [
+            [
+              "a"
+            ],
+            [
+              "b",
+              "g",
+              "h"
+            ],
+            [
+              "c",
+              "f"
+            ],
+            [
+              "d"
+            ]
+          ],
+          "edges": [
+            {
+              "u": [
+                "a"
+              ],
+              "v": [
+                "b",
+                "g",
+                "h"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a"
+              ],
+              "v": [
+                "c",
+                "f"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a"
+              ],
+              "v": [
+                "d"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "c",
+                "f"
+              ],
+              "v": [
+                "d"
+              ],
+              "multiplicity": 1
+            }
+          ]
+        }
+      },
+      {
+        "step": 4,
+        "before": {
+          "n": 4,
+          "m": 4
+        },
+        "contract": {
+          "u": [
+            "a"
+          ],
+          "v": [
+            "d"
+          ]
+        },
+        "multiplicity": 1,
+        "probability": "1/4",
+        "probability_per_copy": "1/4",
+        "contracts_min_cut_edge": false,
+        "p_avoid_min_cut_this_step": "3/4",
+        "cases": [
+          "parallel_edges_created"
+        ],
+        "self_loops_removed": 0,
+        "parallel_created_via_common_neighbours": [
+          [
+            "c",
+            "f"
+          ]
+        ],
+        "new_vertex": [
+          "a",
+          "d"
+        ],
+        "after": {
+          "n": 3,
+          "m": 3,
+          "vertices": [
+            [
+              "a",
+              "d"
+            ],
+            [
+              "b",
+              "g",
+              "h"
+            ],
+            [
+              "c",
+              "f"
+            ]
+          ],
+          "edges": [
+            {
+              "u": [
+                "a",
+                "d"
+              ],
+              "v": [
+                "b",
+                "g",
+                "h"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a",
+                "d"
+              ],
+              "v": [
+                "c",
+                "f"
+              ],
+              "multiplicity": 2
+            }
+          ]
+        }
+      },
+      {
+        "step": 5,
+        "before": {
+          "n": 3,
+          "m": 3
+        },
+        "contract": {
+          "u": [
+            "a",
+            "d"
+          ],
+          "v": [
+            "c",
+            "f"
+          ]
+        },
+        "multiplicity": 2,
+        "probability": "2/3",
+        "probability_per_copy": "1/3",
+        "contracts_min_cut_edge": false,
+        "p_avoid_min_cut_this_step": "2/3",
+        "cases": [
+          "self_loops_removed"
+        ],
+        "self_loops_removed": 1,
+        "parallel_created_via_common_neighbours": [],
+        "new_vertex": [
+          "a",
+          "c",
+          "d",
+          "f"
+        ],
+        "after": {
+          "n": 2,
+          "m": 1,
+          "vertices": [
+            [
+              "a",
+              "c",
+              "d",
+              "f"
+            ],
+            [
+              "b",
+              "g",
+              "h"
+            ]
+          ],
+          "edges": [
+            {
+              "u": [
+                "a",
+                "c",
+                "d",
+                "f"
+              ],
+              "v": [
+                "b",
+                "g",
+                "h"
+              ],
+              "multiplicity": 1
+            }
+          ]
+        }
+      }
+    ],
+    "returned_cut": {
+      "S": [
+        "b",
+        "g",
+        "h"
+      ],
+      "V_minus_S": [
+        "a",
+        "c",
+        "d",
+        "f"
+      ],
+      "value": 1
+    },
+    "success": true,
+    "min_cut_edge_contracted_at_step": null,
+    "probability_of_this_exact_sequence": "1/1008"
+  },
+  "trace_B": {
+    "steps": [
+      {
+        "step": 1,
+        "before": {
+          "n": 7,
+          "m": 8
+        },
+        "contract": {
+          "u": [
+            "g"
+          ],
+          "v": [
+            "h"
+          ]
+        },
+        "multiplicity": 1,
+        "probability": "1/8",
+        "probability_per_copy": "1/8",
+        "contracts_min_cut_edge": false,
+        "p_avoid_min_cut_this_step": "7/8",
+        "cases": [
+          "parallel_edges_created"
+        ],
+        "self_loops_removed": 0,
+        "parallel_created_via_common_neighbours": [
+          [
+            "b"
+          ]
+        ],
+        "new_vertex": [
+          "g",
+          "h"
+        ],
+        "after": {
+          "n": 6,
+          "m": 7,
+          "vertices": [
+            [
+              "a"
+            ],
+            [
+              "b"
+            ],
+            [
+              "c"
+            ],
+            [
+              "d"
+            ],
+            [
+              "f"
+            ],
+            [
+              "g",
+              "h"
+            ]
+          ],
+          "edges": [
+            {
+              "u": [
+                "a"
+              ],
+              "v": [
+                "b"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a"
+              ],
+              "v": [
+                "c"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a"
+              ],
+              "v": [
+                "d"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "b"
+              ],
+              "v": [
+                "g",
+                "h"
+              ],
+              "multiplicity": 2
+            },
+            {
+              "u": [
+                "c"
+              ],
+              "v": [
+                "f"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "d"
+              ],
+              "v": [
+                "f"
+              ],
+              "multiplicity": 1
+            }
+          ]
+        }
+      },
+      {
+        "step": 2,
+        "before": {
+          "n": 6,
+          "m": 7
+        },
+        "contract": {
+          "u": [
+            "a"
+          ],
+          "v": [
+            "b"
+          ]
+        },
+        "multiplicity": 1,
+        "probability": "1/7",
+        "probability_per_copy": "1/7",
+        "contracts_min_cut_edge": true,
+        "p_avoid_min_cut_this_step": "6/7",
+        "cases": [
+          "ordinary"
+        ],
+        "self_loops_removed": 0,
+        "parallel_created_via_common_neighbours": [],
+        "new_vertex": [
+          "a",
+          "b"
+        ],
+        "after": {
+          "n": 5,
+          "m": 6,
+          "vertices": [
+            [
+              "a",
+              "b"
+            ],
+            [
+              "c"
+            ],
+            [
+              "d"
+            ],
+            [
+              "f"
+            ],
+            [
+              "g",
+              "h"
+            ]
+          ],
+          "edges": [
+            {
+              "u": [
+                "a",
+                "b"
+              ],
+              "v": [
+                "c"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a",
+                "b"
+              ],
+              "v": [
+                "d"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a",
+                "b"
+              ],
+              "v": [
+                "g",
+                "h"
+              ],
+              "multiplicity": 2
+            },
+            {
+              "u": [
+                "c"
+              ],
+              "v": [
+                "f"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "d"
+              ],
+              "v": [
+                "f"
+              ],
+              "multiplicity": 1
+            }
+          ]
+        }
+      },
+      {
+        "step": 3,
+        "before": {
+          "n": 5,
+          "m": 6
+        },
+        "contract": {
+          "u": [
+            "c"
+          ],
+          "v": [
+            "f"
+          ]
+        },
+        "multiplicity": 1,
+        "probability": "1/6",
+        "probability_per_copy": "1/6",
+        "contracts_min_cut_edge": null,
+        "p_avoid_min_cut_this_step": null,
+        "cases": [
+          "ordinary"
+        ],
+        "self_loops_removed": 0,
+        "parallel_created_via_common_neighbours": [],
+        "new_vertex": [
+          "c",
+          "f"
+        ],
+        "after": {
+          "n": 4,
+          "m": 5,
+          "vertices": [
+            [
+              "a",
+              "b"
+            ],
+            [
+              "c",
+              "f"
+            ],
+            [
+              "d"
+            ],
+            [
+              "g",
+              "h"
+            ]
+          ],
+          "edges": [
+            {
+              "u": [
+                "a",
+                "b"
+              ],
+              "v": [
+                "c",
+                "f"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a",
+                "b"
+              ],
+              "v": [
+                "d"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "u": [
+                "a",
+                "b"
+              ],
+              "v": [
+                "g",
+                "h"
+              ],
+              "multiplicity": 2
+            },
+            {
+              "u": [
+                "c",
+                "f"
+              ],
+              "v": [
+                "d"
+              ],
+              "multiplicity": 1
+            }
+          ]
+        }
+      },
+      {
+        "step": 4,
+        "before": {
+          "n": 4,
+          "m": 5
+        },
+        "contract": {
+          "u": [
+            "c",
+            "f"
+          ],
+          "v": [
+            "d"
+          ]
+        },
+        "multiplicity": 1,
+        "probability": "1/5",
+        "probability_per_copy": "1/5",
+        "contracts_min_cut_edge": null,
+        "p_avoid_min_cut_this_step": null,
+        "cases": [
+          "parallel_edges_created"
+        ],
+        "self_loops_removed": 0,
+        "parallel_created_via_common_neighbours": [
+          [
+            "a",
+            "b"
+          ]
+        ],
+        "new_vertex": [
+          "c",
+          "d",
+          "f"
+        ],
+        "after": {
+          "n": 3,
+          "m": 4,
+          "vertices": [
+            [
+              "a",
+              "b"
+            ],
+            [
+              "c",
+              "d",
+              "f"
+            ],
+            [
+              "g",
+              "h"
+            ]
+          ],
+          "edges": [
+            {
+              "u": [
+                "a",
+                "b"
+              ],
+              "v": [
+                "c",
+                "d",
+                "f"
+              ],
+              "multiplicity": 2
+            },
+            {
+              "u": [
+                "a",
+                "b"
+              ],
+              "v": [
+                "g",
+                "h"
+              ],
+              "multiplicity": 2
+            }
+          ]
+        }
+      },
+      {
+        "step": 5,
+        "before": {
+          "n": 3,
+          "m": 4
+        },
+        "contract": {
+          "u": [
+            "a",
+            "b"
+          ],
+          "v": [
+            "g",
+            "h"
+          ]
+        },
+        "multiplicity": 2,
+        "probability": "1/2",
+        "probability_per_copy": "1/4",
+        "contracts_min_cut_edge": null,
+        "p_avoid_min_cut_this_step": null,
+        "cases": [
+          "self_loops_removed"
+        ],
+        "self_loops_removed": 1,
+        "parallel_created_via_common_neighbours": [],
+        "new_vertex": [
+          "a",
+          "b",
+          "g",
+          "h"
+        ],
+        "after": {
+          "n": 2,
+          "m": 2,
+          "vertices": [
+            [
+              "a",
+              "b",
+              "g",
+              "h"
+            ],
+            [
+              "c",
+              "d",
+              "f"
+            ]
+          ],
+          "edges": [
+            {
+              "u": [
+                "a",
+                "b",
+                "g",
+                "h"
+              ],
+              "v": [
+                "c",
+                "d",
+                "f"
+              ],
+              "multiplicity": 2
+            }
+          ]
+        }
+      }
+    ],
+    "returned_cut": {
+      "S": [
+        "c",
+        "d",
+        "f"
+      ],
+      "V_minus_S": [
+        "a",
+        "b",
+        "g",
+        "h"
+      ],
+      "value": 2
+    },
+    "success": false,
+    "min_cut_edge_contracted_at_step": 2,
+    "probability_of_this_exact_sequence": "1/3360"
+  }
+}
