@@ -35,17 +35,55 @@
         <li><a href="#contraction-and-cuts">Contraction and Cuts</a></li>
       </ul>
     </nav>
+
     <section id="overview">
       <h2>Overview</h2>
+      <p>
+        Edge contraction is a fundamental graph operation that combines two adjacent vertices into a single composite vertex. In the context of global minimum cut algorithms, repeated edge contraction progressively reduces the size of the graph while grouping vertices that belong to the same side of a partition.
+      </p>
     </section>
+
     <section id="contracting-an-edge">
       <h2>Contracting an Edge</h2>
+      <p>
+        Given an undirected multigraph <em>G = (V, E)</em> and an edge <em>e = {u, v}</em>, the contraction <em>G / e</em> is formally defined as follows [1]:
+      </p>
+      <ol>
+        <li>Replace vertices <em>u</em> and <em>v</em> with a single composite vertex <em>w = {u, v}</em>.</li>
+        <li>Redirect every edge formerly incident to either <em>u</em> or <em>v</em> to connect to <em>w</em>.</li>
+        <li>Remove self-loops (edges that previously connected <em>u</em> and <em>v</em> directly).</li>
+      </ol>
+      <p>
+        Each contraction decreases the total number of vertices |<em>V</em>| by exactly 1.
+      </p>
     </section>
+
     <section id="parallel-edges">
       <h2>Parallel Edges and Self-Loops</h2>
+      <p>
+        Contracting an edge in a simple graph can produce multigraphs with parallel edges. How these edges are handled is critical to the algorithm's correctness:
+      </p>
+      <ul>
+        <li>
+          <strong>Why self-loops are removed:</strong> Once vertices <em>u</em> and <em>v</em> are merged into composite vertex <em>w</em>, any edge between them lies strictly within the same component. Because a cut only measures edges crossing between distinct partitions, internal edges can never cross any future cut. Removing them prevents redundant operations and ensures each step reduces |<em>V</em>|.
+        </li>
+        <li>
+          <strong>Why parallel edges must be kept:</strong> If <em>u</em> and <em>v</em> shared common neighbors, contracting {<em>u, v</em>} creates parallel edges. These parallel edges must be preserved rather than merged into a single edge. They represent the cumulative connectivity (weight) between components. Discarding them would violate the degree lower bound (|<em>E</em>| &ge; <em>nk</em>/2) and distort the uniform edge sampling probability.
+        </li>
+      </ul>
     </section>
+
     <section id="contraction-and-cuts">
       <h2>Contraction and Cuts</h2>
+      <p>
+        Contracting edge <em>e = {u, v}</em> permanently ties <em>u</em> and <em>v</em> together, meaning no subsequent cut can separate them. 
+      </p>
+      <p>
+        <strong>The Cut-Preservation Invariant:</strong> Every valid cut in <em>G / e</em> corresponds to an identical cut in <em>G</em> of the <em>exact same size</em>. Specifically, the cuts of <em>G / e</em> are precisely the cuts (<em>S</em>, <em>V \ S</em>) in <em>G</em> for which <em>u</em> and <em>v</em> lie on the same side (i.e., <em>e</em> does not cross the cut).
+      </p>
+      <p>
+        Therefore, as long as an edge belonging to the optimal minimum cut <em>C*</em> is never chosen for contraction, the minimum cut remains preserved in the multigraph all the way down to the final two super-vertices.
+      </p>
     </section>
   </main>
   <footer>

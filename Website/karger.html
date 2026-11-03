@@ -38,26 +38,142 @@
         <li><a href="#complexity">Time and Space Complexity</a></li>
       </ul>
     </nav>
+
     <section id="overview">
       <h2>Overview</h2>
+      <p>
+        Introduced by David Karger in 1993, Karger’s Min Cut Algorithm solves the global minimum cut problem on undirected multigraphs using randomized edge contractions [2].
+      </p>
+      <p>
+        While deterministic algorithms execute a completely determined sequence of states yielding the exact same output for an input, randomized algorithms incorporate random choices governed by a probability distribution. This prevents adversaries from constructing worst-case inputs and often results in substantially simpler algorithms.
+      </p>
+      <p>
+        Randomized algorithms are broadly categorized into two groups [3]:
+      </p>
+      <table style="width:100%; border-collapse: collapse; margin: 1rem 0; border: 1px solid var(--border);">
+        <thead>
+          <tr style="background: var(--surface); text-align: left;">
+            <th style="padding: 0.5rem; border: 1px solid var(--border);">Category</th>
+            <th style="padding: 0.5rem; border: 1px solid var(--border);">Las Vegas Algorithms</th>
+            <th style="padding: 0.5rem; border: 1px solid var(--border);">Monte Carlo Algorithms</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 0.5rem; border: 1px solid var(--border); font-weight: 600;">Correctness</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Guaranteed</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Uncertain (Bounded failure rate)</td>
+          </tr>
+          <tr>
+            <td style="padding: 0.5rem; border: 1px solid var(--border); font-weight: 600;">Running Time</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Uncertain (Random variable)</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Guaranteed (Deterministic bound)</td>
+          </tr>
+          <tr>
+            <td style="padding: 0.5rem; border: 1px solid var(--border); font-weight: 600;">Example</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Randomized QuickSort</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);"><strong>Karger's Min Cut</strong>, Miller-Rabin</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Karger’s algorithm is a <strong>Monte Carlo algorithm</strong>: its execution time is fixed and strictly bounded, but each single trial has a small probability of returning a sub-optimal cut.
+      </p>
     </section>
+
     <section id="intuition">
       <h2>Intuition</h2>
+      <p>
+        Consider a graph whose minimum cut has size <em>k</em>. By definition, exactly <em>k</em> edges cross this cut, while the total number of edges in the graph is typically much larger (at least <em>nk</em>/2).
+      </p>
+      <p>
+        If an edge is selected uniformly at random, the odds of picking one of the <em>k</em> critical cut edges are relatively low (at most 2/<em>n</em> in the first step). The algorithm is statistically more likely to contract an edge located safely inside one of the partitions. Repeating contractions until only two super-nodes remain yields a non-trivial probability that the true minimum cut was never contracted.
+      </p>
     </section>
+
     <section id="pseudocode">
       <h2>Pseudocode</h2>
+      <p>
+        Given an undirected multigraph <em>G = (V, E)</em> with |<em>V</em>| = <em>n</em>:
+      </p>
+      <ol>
+        <li>While |<em>V</em>| &gt; 2:
+          <ol type="a">
+            <li>Choose an edge <em>e = {u, v} &isin; E</em> uniformly at random.</li>
+            <li>Contract <em>e</em> to form <em>G / e</em> (merge endpoints, remove self-loops, keep parallel edges).</li>
+          </ol>
+        </li>
+        <li>Return the cut defined by the two remaining composite vertices.</li>
+      </ol>
     </section>
+
     <section id="example">
       <h2>Worked Example</h2>
+      <p>
+        For a comprehensive, step-by-step manual trace of Karger's algorithm—demonstrating ordinary contractions, parallel edge creation, self-loop removals, and exact failure/success tracking—see our guided problem:
+      </p>
+      <p>
+        👉 <a href="examples.html"><strong>Tracing Karger's Algorithm by Hand (Guided Problem &amp; Spec)</strong></a>
+      </p>
     </section>
+
     <section id="proof">
       <h2>Proof of Correctness</h2>
+      <p>
+        Let <em>C*</em> be a global minimum cut with capacity <em>k = |C*|</em>.
+      </p>
+      <p>
+        <strong>Lemma (Lower Bound on Number of Edges):</strong> For each vertex <em>v &isin; V</em>, the cut separating {<em>v</em>} from <em>V \ {v}</em> has size deg(<em>v</em>) &ge; <em>k</em>. Summing degrees:
+        <br>
+        2|<em>E</em>| = &sum; deg(<em>v</em>) &ge; <em>nk</em> &implies; |<em>E</em>| &ge; <em>nk</em> / 2.
+      </p>
+      <p>
+        <strong>Step 1:</strong> The probability that the first contracted edge belongs to <em>C*</em> is:
+        <br>
+        P(<em>e</em><sub>1</sub> &isin; <em>C*</em>) = |<em>C*</em>| / |<em>E</em>| &le; <em>k</em> / (<em>nk</em>/2) = 2/<em>n</em>.
+        <br>
+        Thus, P(survives step 1) &ge; 1 &minus; 2/<em>n</em> = (<em>n</em> &minus; 2) / <em>n</em>.
+      </p>
+      <p>
+        <strong>Step <em>i</em>:</strong> If no edge of <em>C*</em> has been contracted in the first <em>i &minus; 1</em> steps, the remaining graph has <em>n &minus; i + 1</em> vertices and its minimum cut size remains at least <em>k</em>. The conditional probability of contracting an edge in <em>C*</em> is at most 2 / (<em>n &minus; i + 1</em>).
+      </p>
+      <p>
+        <strong>Telescoping Product:</strong> The probability that <em>C*</em> survives all <em>n &minus; 2</em> contractions is:
+      </p>
+      <p style="text-align: center; font-family: monospace;">
+        P(Success) &ge; ((n - 2) / n) &times; ((n - 3) / (n - 1)) &times; ... &times; (2 / 4) &times; (1 / 3) = 2 / (n(n - 1)) = 1 / &binom;{n}{2}.
+      </p>
+      <p>
+        <em>Remark on Weighted Graphs:</em> The exact same proof holds for graphs with non-negative real edge weights by sampling edges with probability proportional to their weight, <em>p(e) = w(e) / &sum; w(e')</em>.
+      </p>
     </section>
+
     <section id="success-probability">
       <h2>Probability of Success</h2>
+      <p>
+        A single execution succeeds with probability at least <em>p</em> &ge; 2 / (<em>n</em>(<em>n</em> &minus; 1)) = &Omega;(1 / <em>n</em><sup>2</sup>).
+      </p>
+      <p>
+        While <em>O</em>(1/<em>n</em><sup>2</sup>) is small, running <em>T</em> independent repetitions and tracking the minimum cut found amplifies the success rate. The probability that all <em>T</em> trials fail is:
+      </p>
+      <p style="text-align: center; font-family: monospace;">
+        P(All fail) &le; (1 - 2/n<sup>2</sup>)<sup>T</sup> &le; e<sup>-2T / n<sup>2</sup></sup>
+      </p>
+      <p>
+        Setting <em>T</em> = &Theta;(<em>n</em><sup>2</sup> ln <em>n</em>) guarantees that the global minimum cut is found with high probability (failure probability &le; 1/<em>n</em>).
+      </p>
     </section>
+
     <section id="complexity">
       <h2>Time and Space Complexity</h2>
+      <ul>
+        <li><strong>Single Run:</strong> Using a Disjoint-Set Union (Union-Find) data structure or adjacency list relabeling, a single contraction phase runs in <em>O</em>(<em>m</em> &alpha;(<em>n</em>)) or <em>O</em>(<em>n</em><sup>2</sup>) time.</li>
+        <li><strong>Amplified Algorithm:</strong> Performing <em>O</em>(<em>n</em><sup>2</sup> ln <em>n</em>) independent runs leads to an overall time complexity of <em>O</em>(<em>n</em><sup>4</sup> ln <em>n</em>) on dense graphs.</li>
+        <li><strong>Space Complexity:</strong> <em>O</em>(<em>n</em> + <em>m</em>) to store the vertices, edge list, and disjoint-set parent pointers.</li>
+      </ul>
+      <p>
+        For an optimized variant, see the <a href="karger-stein.html">Karger-Stein algorithm</a>, which uses recursive contraction to achieve an improved <em>O</em>(<em>n</em><sup>2</sup> log<sup>3</sup> <em>n</em>) runtime.
+      </p>
     </section>
   </main>
   <footer>
