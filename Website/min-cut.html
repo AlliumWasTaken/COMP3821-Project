@@ -36,9 +36,14 @@
     </nav>
     <section id="cuts">
       <h2>Cuts</h2>
+      <p>Given an undirected graph <var>G</var> with <var>n</var> vertices and <var>m</var> edges, a <i>cut</i> refers to the partition of the vertices of <var>G</var> into two disjoint and nonempty subsets by removing a subset of edges from <var>G</var>.</p>
+      <p>The <i>value</i> of a cut is equal to the number of edges removed, or in a weighted graph, the sum of edge weights that are removed to partition the graph. The minimum cut problem wishes to minimise the value of the cut.</p>
+      <p>Formally worded, a <i>cut</i> of an undirected graph <var>G</var> = (<var>V</var>, <var>E</var>) with <var>n</var> = |<var>V</var>| vertices and <var>m</var> = |<var>E</var>| edges, is a partition of the vertices of <var>G</var> into two nonempty sets <var>A</var> and <var>B</var>. An edge (<var>v</var>, <var>w</var>) <i>crosses</i> the cut of <var>A</var> and <var>B</var> if one of <var>v</var> and <var>w</var> is in <var>A</var> and the other in <var>B</var>. The <i>value</i> of a cut is the number of edges that cross the cut or, in a weighted graph, the sum of the weights of the edges that cross the cut. The minimum cut problem is to find a cut of minimum value.
+      <p>It is assumed that the graph <var>G</var> is connected, otherwise the solution is trivial. We also require that all edge weights be nonnegative because otherwise the problem is NP-complete by a trivial transformation from the maximum-cut problem.
     </section>
     <section id="global-vs-st">
       <h2>Global vs. s-t Minimum Cuts</h2>
+      <p>A closely related problem is the <var>s</var>–<var>t</var> minimum cut, which asks for a minimum value cut with a given source <var>s</var> on one side, and a sink <var>t</var> on the other. By the Max-flow Min-cut Theorem, its value equals the maximum <var>s</var>–<var>t</var> flow, which follows that it can be computed by any max-flow algorithm. This project instead seeks to address the global minimum cut, the minimum over all pairs <var>s</var>, <var>t</var> of the minimum <var>s</var>–<var>t</var> cut. Fixing <var>s</var> and trying every <var>t</var> would need <var>n</var> − 1 max-flow computations. To avoid this, we will be discussing the Stoer-Wagner Algorithm.</p>
     </section>
     <section id="multigraphs">
       <h2>Weighted Multigraphs</h2>
