@@ -32,7 +32,6 @@
         <li><a href="#overview">Overview</a></li>
         <li><a href="#intuition">Intuition</a></li>
         <li><a href="#pseudocode">Pseudocode</a></li>
-        <li><a href="#example">Worked Example</a></li>
         <li><a href="#proof">Proof of Correctness</a></li>
         <li><a href="#success-probability">Probability of Success</a></li>
         <li><a href="#complexity">Time and Space Complexity</a></li>
@@ -72,12 +71,12 @@
           <tr>
             <td style="padding: 0.5rem; border: 1px solid var(--border); font-weight: 600;">Example</td>
             <td style="padding: 0.5rem; border: 1px solid var(--border);">Randomized QuickSort</td>
-            <td style="padding: 0.5rem; border: 1px solid var(--border);"><strong>Karger's Min Cut</strong>, Miller-Rabin</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Karger's Min Cut, Miller-Rabin</td>
           </tr>
         </tbody>
       </table>
       <p>
-        Karger’s algorithm is a <strong>Monte Carlo algorithm</strong>: its execution time is fixed and strictly bounded, but each single trial has a small probability of returning a sub-optimal cut.
+        Karger’s algorithm is a Monte Carlo algorithm, its execution time is fixed and strictly bounded, but each single trial has a small probability of returning a sub-optimal cut.
       </p>
     </section>
 
@@ -107,72 +106,109 @@
       </ol>
     </section>
 
-    <section id="example">
-      <h2>Worked Example</h2>
-      <p>
-        Links to worked examples:
-      </p>
-      <p>
-        <a href="examples.html"><strong>(To add: Link to worked example)</strong></a>
-      </p>
-    </section>
-
     <section id="proof">
       <h2>Proof of Correctness</h2>
       <p>
-        Let <em>C*</em> be a global minimum cut with capacity <em>k = |C*|</em>.
+        Following Karger [2] and Yu [10], we analyze the probability that a specific global minimum cut <em>(X, X&#772;)</em> of size <em>k</em> survives all <em>n &minus; 2</em> contractions on a connected multigraph <em>G = (V, E)</em> (with parallel edges kept and self-loops removed).
+      </p>
+
+      <h3>Cut Correspondence:</h3>
+      <p>
+        Let <em>G'</em> be obtained from <em>G</em> by a sequence of edge contractions. There is a one-to-one correspondence between cuts <em>(Y, Y&#772;)</em> of <em>G'</em> and cuts <em>(X, X&#772;)</em> of <em>G</em> that survived every contraction (meaning no contracted edge had one endpoint in <em>X</em> and one in <em>X&#772;</em>), and both cuts have the exact same size. In particular, every cut in <em>G'</em> has size at least <em>k</em>.
+      </p>
+
+      <h3>Edge Lower Bound Lemma</h3>
+      <p>
+        <em>Let G be an undirected multigraph with no self-loops and minimum cut value k. Then |E(G)| &ge; nk / 2.</em>
       </p>
       <p>
-        <strong>Lemma (Lower Bound on Number of Edges):</strong> For each vertex <em>v &isin; V</em>, the cut separating {<em>v</em>} from <em>V \ {v}</em> has size deg(<em>v</em>) &ge; <em>k</em>. Summing degrees:
-        <br>
-        2|<em>E</em>| = &sum; deg(<em>v</em>) &ge; <em>nk</em> &implies; |<em>E</em>| &ge; <em>nk</em> / 2.
+        <strong>Proof:</strong> For every vertex <em>v &isin; V</em>, the singleton partition <em>({v}, V \ {v})</em> is a valid cut of size exactly deg(<em>v</em>). Since <em>k</em> is the minimum cut value, deg(<em>v</em>) &ge; <em>k</em> for all <em>v &isin; V</em>. By the Handshaking Lemma [1], |<em>E</em>| = (&sum;<sub><em>v &isin; V</em></sub> deg(<em>v</em>)) / 2 &ge; <em>nk</em> / 2.
+      </p>
+
+      <h3>Single Step Survival Corollary</h3>
+      <p>
+        <em>Let (X, X&#772;) be any minimum cut of G. The probability that (X, X&#772;) survives a single random edge contraction is at least 1 &minus; 2/n.</em>
       </p>
       <p>
-        <strong>Step 1:</strong> The probability that the first contracted edge belongs to <em>C*</em> is:
-        <br>
-        P(<em>e</em><sub>1</sub> &isin; <em>C*</em>) = |<em>C*</em>| / |<em>E</em>| &le; <em>k</em> / (<em>nk</em>/2) = 2/<em>n</em>.
-        <br>
-        Thus, P(survives step 1) &ge; 1 &minus; 2/<em>n</em> = (<em>n</em> &minus; 2) / <em>n</em>.
+        <strong>Proof:</strong> By the Edge Lower Bound Lemma, there are at least <em>nk</em> / 2 edges in <em>G</em>, and exactly <em>k</em> of them cross <em>(X, X&#772;)</em>. Selecting an edge uniformly at random hits <em>(X, X&#772;)</em> with probability <em>k</em> / |<em>E</em>| &le; <em>k</em> / (<em>nk</em> / 2) = 2/<em>n</em>. Thus, <em>(X, X&#772;)</em> survives with probability at least 1 &minus; 2/<em>n</em>.
+      </p>
+
+      <h3>Theorem [Karger 1993]</h3>
+      <p>
+        <em>For any undirected multigraph G and any global minimum cut (X, X&#772;), a single run of Karger's algorithm outputs (X, X&#772;) with probability at least 2 / (n(n &minus; 1)).</em>
       </p>
       <p>
-        <strong>Step <em>i</em>:</strong> If no edge of <em>C*</em> has been contracted in the first <em>i &minus; 1</em> steps, the remaining graph has <em>n &minus; i + 1</em> vertices and its minimum cut size remains at least <em>k</em>. The conditional probability of contracting an edge in <em>C*</em> is at most 2 / (<em>n &minus; i + 1</em>).
-      </p>
-      <p>
-        <strong>Telescoping Product:</strong> The probability that <em>C*</em> survives all <em>n &minus; 2</em> contractions is:
+        <strong>Proof:</strong> By Cut Correspondence, the algorithm outputs <em>(X, X&#772;)</em> if and only if <em>(X, X&#772;)</em> survives all <em>n &minus; 2</em> contractions. Conditioned on surviving the first <em>i &minus; 1</em> contractions, the current multigraph has <em>n &minus; (i &minus; 1) = n &minus; i + 1</em> super-vertices, no self-loops, and <em>(X, X&#772;)</em> remains a minimum cut of value <em>k</em>. Applying the Single Step Survival Corollary to the <em>i</em>-th contraction gives a conditional survival probability of at least 1 &minus; 2 / (<em>n &minus; i + 1</em>). By the chain rule of conditional probability, the overall probability that <em>(X, X&#772;)</em> survives every contraction is at least:
       </p>
       <p style="text-align: center; font-family: monospace;">
-        P(Success) &ge; ((n - 2) / n) &times; ((n - 3) / (n - 1)) &times; ... &times; (2 / 4) &times; (1 / 3) = 2 / (n(n - 1)) = 1 / &binom;{n}{2}.
+        &prod;<sub>i=1..n-2</sub> (1 &minus; 2 / (n &minus; i + 1))
+        = &prod;<sub>i=1..n-2</sub> ((n &minus; i &minus; 1) / (n &minus; i + 1))
+        = ((n &minus; 2)/n) &times; ((n &minus; 3)/(n &minus; 1)) &times; ((n &minus; 4)/(n &minus; 2)) &times; &hellip; &times; (2/4) &times; (1/3)
+        = 2 / (n(n &minus; 1)).
       </p>
       <p>
-        <em>Remark on Weighted Graphs:</em> The exact same proof holds for graphs with non-negative real edge weights by sampling edges with probability proportional to their weight, <em>p(e) = w(e) / &sum; w(e')</em>.
+        <em>Corollary (Number of Minimum Cuts):</em> Because a single run outputs only one cut, the events of outputting distinct minimum cuts are disjoint. Since each has probability at least 2 / (<em>n</em>(<em>n</em> &minus; 1)) = 1 / C(<em>n</em>, 2) and the sum of probabilities cannot exceed 1, any graph has at most C(<em>n</em>, 2) = <em>n</em>(<em>n</em> &minus; 1) / 2 global minimum cuts [2, 5].
       </p>
     </section>
 
     <section id="success-probability">
       <h2>Probability of Success</h2>
       <p>
-        A single execution succeeds with probability at least <em>p</em> &ge; 2 / (<em>n</em>(<em>n</em> &minus; 1)) = &Omega;(1 / <em>n</em><sup>2</sup>).
-      </p>
-      <p>
-        While <em>O</em>(1/<em>n</em><sup>2</sup>) is small, running <em>T</em> independent repetitions and tracking the minimum cut found amplifies the success rate. The probability that all <em>T</em> trials fail is:
+        From the above theorem, a single execution finds a specific minimum cut with probability at least:
       </p>
       <p style="text-align: center; font-family: monospace;">
-        P(All fail) &le; (1 - 2/n<sup>2</sup>)<sup>T</sup> &le; e<sup>-2T / n<sup>2</sup></sup>
+        P(Single run succeeds) &ge; 1 / C(n, 2) = 2 / (n(n &minus; 1)).
       </p>
       <p>
-        Setting <em>T</em> = &Theta;(<em>n</em><sup>2</sup> ln <em>n</em>) guarantees that the global minimum cut is found with high probability (failure probability &le; 1/<em>n</em>).
+        While &Omega;(1/<em>n</em><sup>2</sup>) is small, Karger's algorithm is a Monte Carlo algorithm whose success probability can be improved by running multiple trials and returning the smallest cut found.
+      </p>
+      <p>
+        <strong>Including Reruns:</strong> Given that for all <em>x</em> &gt; 0, (1 &minus; 1/<em>x</em>)<sup><em>x</em></sup> &le; 1/<em>e</em>, and that the algorithm is incorrect only if every run fails to find the minimum cut:
+      </p>
+      <p style="text-align: center; font-family: monospace;">
+        P(Karger reruns are incorrect) = P(Karger is incorrect for all C &middot; C(n, 2) ln n independent runs)
+      </p>
+      <p style="text-align: center; font-family: monospace;">
+        = [ P(Single run is incorrect) ]<sup>C &middot; C(n, 2) ln n</sup>
+      </p>
+      <p style="text-align: center; font-family: monospace;">
+        &le; [ 1 &minus; 1 / C(n, 2) ]<sup>C &middot; C(n, 2) ln n</sup>
+      </p>
+      <p style="text-align: center; font-family: monospace;">
+        = [ (1 &minus; 1 / C(n, 2))<sup>C(n, 2)</sup> ]<sup>C ln n</sup>
+      </p>
+      <p style="text-align: center; font-family: monospace;">
+        &le; (1 / e)<sup>C ln n</sup> = e<sup>&minus;C ln n</sup> = 1 / n<sup>C</sup>.
+      </p>
+
+      <p>
+        Thus, running Karger's algorithm <em>c</em> &middot; (1/<em>P</em>) ln <em>n</em> times and selecting the best result guarantees an amplified success rate of at least 1 &minus; 1/<em>n</em><sup><em>c</em></sup> [11].
       </p>
     </section>
 
     <section id="complexity">
       <h2>Time and Space Complexity</h2>
+      <p>
+        The complexity of Karger's algorithm breaks down into multiple parts:
+      </p>
       <ul>
-        <li><strong>Single Run:</strong> Using a Disjoint-Set Union (Union-Find) data structure or adjacency list relabeling, a single contraction phase runs in <em>O</em>(<em>m</em> &alpha;(<em>n</em>)) or <em>O</em>(<em>n</em><sup>2</sup>) time.</li>
-        <li><strong>Amplified Algorithm:</strong> Performing <em>O</em>(<em>n</em><sup>2</sup> ln <em>n</em>) independent runs leads to an overall time complexity of <em>O</em>(<em>n</em><sup>4</sup> ln <em>n</em>) on dense graphs.</li>
-        <li><strong>Space Complexity:</strong> <em>O</em>(<em>n</em> + <em>m</em>) to store the vertices, edge list, and disjoint-set parent pointers.</li>
+        <li>
+          <strong>Single Run Time <em>O</em>(<em>n</em><sup>2</sup>):</strong> 
+          The algorithm performs exactly <em>n</em> &minus; 2 edge contractions. Merging two vertices {<em>u, v</em>} requires scanning at most <em>O</em>(<em>n</em>) incident edges. Thus taking (<em>n</em> &minus; 2) &times; <em>O</em>(<em>n</em>) = <strong><em>O</em>(<em>n</em><sup>2</sup>)</strong> per run.
+        </li>
+        <li>
+          <strong>Multiple Runs Time <em>O</em>(<em>n</em><sup>4</sup> log <em>n</em>):</strong> 
+          To achieve a failure probability of at most 1/<em>n</em>, we perform <em>n</em><sup>2</sup> ln <em>n</em> repetitions. The total running time is thus:
+          <br>
+          <em>O</em>(<em>n</em><sup>2</sup>) &times; <em>O</em>(<em>n</em><sup>2</sup> ln <em>n</em>) = <strong><em>O</em>(<em>n</em><sup>4</sup> log <em>n</em>)</strong>.
+        </li>
+        <li>
+          <strong>Space Complexity <em>O</em>(<em>n</em> + <em>m</em>):</strong> 
+          The algorithm only needs to maintain the current graph and vertex mappings, requiring only linear space proportional to the original vertices and edges.
+        </li>
       </ul>
       <p>
-        For an optimized variant, see the <a href="karger-stein.html">Karger-Stein algorithm</a>, which uses recursive contraction to achieve an improved <em>O</em>(<em>n</em><sup>2</sup> log<sup>3</sup> <em>n</em>) runtime.
+        The <em>O</em>(<em>n</em><sup>4</sup> log <em>n</em>) runtime can be improved significantly. The recursive <strong><a href="karger-stein.html">Karger-Stein Algorithm</a></strong> branches on partially contracted graphs to achieve <strong><em>O</em>(<em>n</em><sup>2</sup> log<sup>3</sup> <em>n</em>)</strong>, and Karger's tree-packing approach [12] gets the near linear <strong><em>O</em>(<em>m</em> log<sup>3</sup> <em>n</em>)</strong> time.
       </p>
     </section>
   </main>
