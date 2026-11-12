@@ -48,6 +48,7 @@
     <section id="multigraphs">
       <h2>Weighted Multigraphs</h2>
     </section>
+    <p>In the context of minimum cuts, an unweighted multigraph (a graph where multiple parallel edges can exist between the same pair of vertices) can be easily reduced to a simple weighted graph. To do this, we replace all parallel edges between any two given vertices with a single edge. The weight of this new edge is set to the sum of the weights of the original parallel edges, or simply the count of the edges if the original multigraph was unweighted. <br>This transformation is crucial because it allows algorithms designed for simple weighted graphs, like the Stoer-Wagner algorithm, to be applied directly to multigraphs without needing specialised logic or data structures to handle parallel connections.</p>
   </main>
   <footer>
     <nav aria-label="Pagination">
