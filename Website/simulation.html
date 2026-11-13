@@ -37,15 +37,33 @@
     </nav>
     <section id="setup">
       <h2>Graph Setup</h2>
+      <p>List the edges of a connected graph, separated by commas or new lines. Repeat an edge to make it parallel, or write a-a for a self-loop.</p>
+      <textarea class="ga-input" id="sim-edges" rows="3" spellcheck="false" aria-label="Edges"></textarea>
+      <div class="ga-controls">
+        <button type="button" id="sim-problem-1">Problem 1 graph</button>
+        <button type="button" id="sim-random">Random graph</button>
+      </div>
+      <noscript><p>The simulation needs JavaScript.</p></noscript>
     </section>
     <section id="controls">
       <h2>Controls</h2>
+      <fieldset class="ga-variants">
+        <legend>Algorithm</legend>
+        <label><input type="radio" name="sim-algorithm" value="karger" checked> Karger</label>
+        <label><input type="radio" name="sim-algorithm" value="stoer-wagner"> Stoer-Wagner</label>
+      </fieldset>
+      <div class="ga-controls">
+        <button type="button" class="ga-play" id="sim-run">Run</button>
+      </div>
+      <p class="ga-error" id="sim-error" role="alert"></p>
     </section>
     <section id="visualisation">
       <h2>Visualisation</h2>
+      <figure class="graph-animation" id="sim-figure"></figure>
     </section>
     <section id="results">
       <h2>Results</h2>
+      <p id="sim-results"></p>
     </section>
   </main>
   <footer>
@@ -54,5 +72,76 @@
       <a href="stoer-wagner.html" rel="next">Next: Stoer-Wagner Algorithm</a>
     </nav>
   </footer>
+  <script src="problem-1.js"></script>
+  <script src="graph-animation.js"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      const $ = id => document.getElementById(id);
+      const input = $('sim-edges');
+      const problem1 = window.problem1.spec.graph.edges.map(edge => edge.join('-')).join(', ');
+      let tally = { graph: '', runs: 0, hits: 0 };
+
+      function parse(text) {
+        const edges = text.split(/[\n,;]+/).map(part => part.trim().split(/[\s–-]+/).filter(Boolean)).filter(pair => pair.length);
+        const vertices = Array.from(new Set(edges.flat()));
+        if (edges.some(pair => pair.length !== 2)) throw new Error('Write each edge as two vertices, like a-b.');
+        if (vertices.length < 2 || vertices.length > 10) throw new Error('Use between 2 and 10 vertices.');
+        if (edges.length > 25) throw new Error('Use at most 25 edges.');
+        const reached = [vertices[0]];
+        for (const v of reached) {
+          edges.forEach(pair => {
+            const other = pair[0] === v ? pair[1] : pair[1] === v ? pair[0] : null;
+            if (other && !reached.includes(other)) reached.push(other);
+          });
+        }
+        if (reached.length < vertices.length) throw new Error('The graph must be connected.');
+        return { vertices, edges };
+      }
+
+      function randomGraph() {
+        const pick = n => Math.floor(Math.random() * n);
+        const names = 'abcdfghi'.slice(0, 5 + pick(4)).split('');
+        const edges = new Set();
+        names.forEach((v, i) => { if (i) edges.add(names[pick(i)] + '-' + v); });
+        while (edges.size < names.length + 2) {
+          const i = pick(names.length), j = pick(names.length);
+          if (i < j) edges.add(names[i] + '-' + names[j]);
+        }
+        return Array.from(edges).join(', ');
+      }
+
+      function run() {
+        let graph;
+        try {
+          graph = parse(input.value);
+        } catch (problem) {
+          $('sim-error').textContent = problem.message;
+          return;
+        }
+        $('sim-error').textContent = '';
+        const kind = document.querySelector('input[name="sim-algorithm"]:checked').value;
+        const model = graphAnimation.mount($('sim-figure'), kind, graph, input.value === problem1 ? window.problem1.layout : null);
+
+        if (JSON.stringify(graph) !== tally.graph) tally = { graph: JSON.stringify(graph), runs: 0, hits: 0 };
+        if (kind === 'karger') {
+          tally.runs++;
+          tally.hits += model.success ? 1 : 0;
+        }
+        $('sim-results').textContent = 'The minimum cut has value ' + model.minCut + '. ' + (kind === 'karger'
+          ? 'Karger has found it in ' + tally.hits + ' of ' + tally.runs + (tally.runs === 1 ? ' run.' : ' runs.')
+          : 'Stoer-Wagner always finds it.');
+      }
+
+      $('sim-run').addEventListener('click', run);
+      $('sim-problem-1').addEventListener('click', () => { input.value = problem1; run(); });
+      $('sim-random').addEventListener('click', () => { input.value = randomGraph(); run(); });
+      document.querySelectorAll('input[name="sim-algorithm"]').forEach(radio => radio.addEventListener('change', run));
+
+      input.value = problem1;
+      run();
+    })();
+  </script>
 </body>
 </html>
