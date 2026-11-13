@@ -40,6 +40,18 @@
       <p>The <i>value</i> of a cut is equal to the number of edges removed, or in a weighted graph, the sum of edge weights that are removed to partition the graph. The minimum cut problem wishes to minimise the value of the cut.</p>
       <p>Formally worded, a <i>cut</i> of an undirected graph <var>G</var> = (<var>V</var>, <var>E</var>) with <var>n</var> = |<var>V</var>| vertices and <var>m</var> = |<var>E</var>| edges, is a partition of the vertices of <var>G</var> into two nonempty sets <var>A</var> and <var>B</var>. An edge (<var>v</var>, <var>w</var>) <i>crosses</i> the cut of <var>A</var> and <var>B</var> if one of <var>v</var> and <var>w</var> is in <var>A</var> and the other in <var>B</var>. The <i>value</i> of a cut is the number of edges that cross the cut or, in a weighted graph, the sum of the weights of the edges that cross the cut. The minimum cut problem is to find a cut of minimum value.
       <p>It is assumed that the graph <var>G</var> is connected, otherwise the solution is trivial. We also require that all edge weights be nonnegative because otherwise the problem is NP-complete by a trivial transformation from the maximum-cut problem.
+      <h3>Example</h3>
+      <figure class="graph-animation" data-kind="cuts"
+              data-layout='{"a": [80, 160], "b": [190, 80], "c": [190, 240], "d": [370, 80], "f": [370, 240], "g": [480, 160]}'>
+        <script type="application/json">
+          {
+            "vertices": ["a", "b", "c", "d", "f", "g"],
+            "edges": [["a", "b"], ["a", "c"], ["b", "c"], ["b", "d"], ["c", "f"], ["d", "f"], ["d", "g"], ["f", "g"]],
+            "cuts": [["b"], ["b", "c"], ["a", "b", "c"], ["a"]]
+          }
+        </script>
+        <noscript>This animation needs JavaScript.</noscript>
+      </figure>
     </section>
     <section id="global-vs-st">
       <h2>Global vs. s-t Minimum Cuts</h2>
@@ -55,5 +67,6 @@
       <a href="contraction.html" rel="next">Next: Graph Contraction</a>
     </nav>
   </footer>
+  <script src="graph-animation.js"></script>
 </body>
 </html>

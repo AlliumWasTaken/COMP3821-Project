@@ -71,6 +71,18 @@
           <strong>Why parallel edges must be kept:</strong> If <em>u</em> and <em>v</em> shared common neighbors, contracting {<em>u, v</em>} creates parallel edges. These parallel edges must be preserved rather than merged into a single edge. They represent the cumulative connectivity (weight) between components. Discarding them would violate the degree lower bound (|<em>E</em>| &ge; <em>nk</em>/2) and distort the uniform edge sampling probability.
         </li>
       </ul>
+      <h3>Example</h3>
+      <figure class="graph-animation" data-kind="contraction"
+              data-layout='{"u": [230, 110], "v": [330, 110], "x": [280, 230], "y": [110, 110], "z": [450, 110]}'>
+        <script type="application/json">
+          {
+            "vertices": ["u", "v", "x", "y", "z"],
+            "edges": [["u", "v"], ["u", "x"], ["v", "x"], ["u", "y"], ["v", "z"]],
+            "contract": [[["u"], ["v"]], [["u", "v"], ["x"]]]
+          }
+        </script>
+        <noscript>This animation needs JavaScript.</noscript>
+      </figure>
     </section>
 
     <section id="contraction-and-cuts">
@@ -92,5 +104,6 @@
       <a href="karger.html" rel="next">Next: Karger's Algorithm</a>
     </nav>
   </footer>
+  <script src="graph-animation.js"></script>
 </body>
 </html>
