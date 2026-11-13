@@ -117,10 +117,10 @@
     <section id="proof">
       <h2>Proof of Correctness</h2>
       <p>
-        Following Karger [2] and Yu [10], we analyze the probability that a specific global minimum cut <em>(X, X&#772;)</em> of size <em>k</em> survives all <em>n &minus; 2</em> contractions on a connected multigraph <em>G = (V, E)</em> (with parallel edges kept and self-loops removed).
+        Following Karger [2] and Yu [9], we analyze the probability that a specific global minimum cut <em>(X, X&#772;)</em> of size <em>k</em> survives all <em>n &minus; 2</em> contractions on a connected multigraph <em>G = (V, E)</em> (with parallel edges kept and self-loops removed).
       </p>
 
-      <h3>Cut Correspondence:</h3>
+      <h3>Cut Correspondence</h3>
       <p>
         Let <em>G'</em> be obtained from <em>G</em> by a sequence of edge contractions. There is a one-to-one correspondence between cuts <em>(Y, Y&#772;)</em> of <em>G'</em> and cuts <em>(X, X&#772;)</em> of <em>G</em> that survived every contraction (meaning no contracted edge had one endpoint in <em>X</em> and one in <em>X&#772;</em>), and both cuts have the exact same size. In particular, every cut in <em>G'</em> has size at least <em>k</em>.
       </p>
@@ -190,7 +190,7 @@
       </p>
 
       <p>
-        Thus, running Karger's algorithm <em>c</em> &middot; (1/<em>P</em>) ln <em>n</em> times and selecting the best result guarantees an amplified success rate of at least 1 &minus; 1/<em>n</em><sup><em>c</em></sup> [11].
+        Thus, running Karger's algorithm <em>c</em> &middot; (1/<em>P</em>) ln <em>n</em> times and selecting the best result guarantees an amplified success rate of at least 1 &minus; 1/<em>n</em><sup><em>c</em></sup> [10].
       </p>
     </section>
 
@@ -216,7 +216,7 @@
         </li>
       </ul>
       <p>
-        The <em>O</em>(<em>n</em><sup>4</sup> log <em>n</em>) runtime can be improved significantly. The recursive <strong><a href="karger-stein.html">Karger-Stein Algorithm</a></strong> branches on partially contracted graphs to achieve <strong><em>O</em>(<em>n</em><sup>2</sup> log<sup>3</sup> <em>n</em>)</strong>, and Karger's tree-packing approach [12] gets the near linear <strong><em>O</em>(<em>m</em> log<sup>3</sup> <em>n</em>)</strong> time.
+        The <em>O</em>(<em>n</em><sup>4</sup> log <em>n</em>) runtime can be improved significantly. The recursive <strong><a href="karger-stein.html">Karger-Stein Algorithm</a></strong> branches on partially contracted graphs to achieve <strong><em>O</em>(<em>n</em><sup>2</sup> log<sup>3</sup> <em>n</em>)</strong>, and Karger's tree-packing approach [11] gets the near linear <strong><em>O</em>(<em>m</em> log<sup>3</sup> <em>n</em>)</strong> time.
       </p>
     </section>
   </main>

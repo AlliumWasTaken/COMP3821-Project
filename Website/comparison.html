@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comparison | Randomized vs. Deterministic Graph Algorithms</title>
+  <title>Comparison | Randomised vs. Deterministic Graph Algorithms</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <a href="index.html">Randomized vs. Deterministic Graph Algorithms</a>
+    <a href="index.html">Randomised vs. Deterministic Graph Algorithms</a>
     <nav aria-label="Main">
       <ul>
         <li><a href="index.html">Home</a></li>
@@ -40,24 +40,209 @@
     </nav>
     <section id="summary">
       <h2>Summary</h2>
+      <p>
+        There are often many different types of algorithms to solve the same problem, and one such dichotomy is between deterministic and randomised algorithms. 
+        In this case, when finding the global minimum cut of an undirected, graph, we can compare the deterministic Stoer-Wagner [6] and the randomised Karger’s algorithm
+        (Amplified Karger's algorithm meaning rerunning the algorithm multiple times to improve accuracy). We will additionally compare them to Karger–Stein, a more optimised
+        and efficient, yet still randomised, algorithm to demonstrate the relative strengths of randomised algorithms.
+        
+      </p>
+      <p>
+        Generally, deterministic algorithms execute a fixed sequence of steps that guarantee exact, reproducible results for any input, while randomised algorithms
+        introduce random decision making. Randomised algorithms can either trade guaranteed runtime for exactness (Las Vegas algorithms) or can exchange guaranteed 
+        exactness for a simpler, bounded runtime (Monte Carlo algorithms) [3].
+      </p>
+
+      <table style="width:100%; border-collapse: collapse; margin: 1rem 0; border: 1px solid var(--border);">
+        <thead>
+          <tr style="background: var(--surface); text-align: left;">
+            <th style="padding: 0.5rem; border: 1px solid var(--border);">Dimension</th>
+            <th style="padding: 0.5rem; border: 1px solid var(--border);">Karger (Amplified)</th>
+            <th style="padding: 0.5rem; border: 1px solid var(--border);">Karger–Stein</th>
+            <th style="padding: 0.5rem; border: 1px solid var(--border);">Stoer–Wagner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 0.5rem; border: 1px solid var(--border); font-weight: 600;">Paradigm</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Randomised (Monte Carlo)</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Randomised (Monte Carlo)</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Deterministic</td>
+          </tr>
+          <tr>
+            <td style="padding: 0.5rem; border: 1px solid var(--border); font-weight: 600;">Core Mechanism</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Uniform random edge contraction</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Recursive branching contraction</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Maximum Adjacency Search</td>
+          </tr>
+          <tr>
+            <td style="padding: 0.5rem; border: 1px solid var(--border); font-weight: 600;">Time Complexity</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);"><em>O</em>(<em>n</em><sup>4</sup> log <em>n</em>)</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);"><em>O</em>(<em>n</em><sup>2</sup> log<sup>3</sup> <em>n</em>)</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);"><em>O</em>(<em>nm</em> + <em>n</em><sup>2</sup> log <em>n</em>)</td>
+          </tr>
+          <tr>
+            <td style="padding: 0.5rem; border: 1px solid var(--border); font-weight: 600;">Space Complexity</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);"><em>O</em>(<em>n</em> + <em>m</em>)</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);"><em>O</em>(<em>n</em><sup>2</sup>)</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);"><em>O</em>(<em>n</em> + <em>m</em>)</td>
+          </tr>
+          <tr>
+            <td style="padding: 0.5rem; border: 1px solid var(--border); font-weight: 600;">Error Rate</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">&le; 1 / <em>n</em><sup><em>C</em></sup></td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">&le; 1 / <em>n</em><sup><em>c</em></sup></td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">0 (Always exact)</td>
+          </tr>
+          <tr>
+            <td style="padding: 0.5rem; border: 1px solid var(--border); font-weight: 600;">Parallelisable?</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Yes</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">Yes</td>
+            <td style="padding: 0.5rem; border: 1px solid var(--border);">No</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
+
     <section id="time-complexity">
       <h2>Time Complexity</h2>
+      <p>
+        The running times of these algorithms depend heavily on graph density (sparse graphs where <em>m</em> = &Theta;(<em>n</em>) versus dense graphs where <em>m</em> = &Theta;(<em>n</em><sup>2</sup>)):
+      </p>
+      <ul>
+        <li>
+          <strong>Stoer–Wagner:</strong> Stoer–Wagner runs <em>n</em> &minus; 1
+          minimum-cut steps. Using a Fibonacci heap for Maximum Adjacency Search, each phase takes <em>O</em>(<em>m</em> + <em>n</em> log <em>n</em>) time, alternatively 
+          <em>O</em>(<em>n</em><sup>2</sup>) with an adjacency matrix [6]. This means that on sparse graphs it achieves a time complexity of 
+          <strong><em>O</em>(<em>n</em><sup>2</sup> log <em>n</em>)</strong>, however on dense graphs, it scales to 
+          <strong><em>O</em>(<em>n</em><sup>3</sup>)</strong>.
+        </li>
+        <li>
+          <strong>Basic Karger (Amplified):</strong> A single contraction pass takes 
+          <em>O</em>(<em>n</em><sup>2</sup>) time. However, because a single run succeeds with probability
+          only &Omega;(1/<em>n</em><sup>2</sup>), achieving high probability requires &Theta;(<em>n</em><sup>2</sup> ln <em>n</em>) repetitions, making basic Karger significantly 
+          slower than Stoer–Wagner with a time complexity of <strong><em>O</em>(<em>n</em><sup>4</sup> log <em>n</em>)</strong> [9, 10].
+        </li>
+        <li>
+          <strong>Karger–Stein:</strong> By delaying branching until the graph shrinks to <em>n</em>/&radic;2 vertices, Karger–Stein lowers the 
+          cost of a single run to <em>O</em>(<em>n</em><sup>2</sup> log <em>n</em>) while boosting success probability to &Omega;(1/log <em>n</em>) [2]. 
+          Amplifying with <em>O</em>(log<sup>2</sup> <em>n</em>) repetitions achieves <strong><em>O</em>(<em>n</em><sup>2</sup> log<sup>3</sup> <em>n</em>)</strong>, 
+          thus beating Stoer–Wagner on dense graphs (<em>O</em>(<em>n</em><sup>2</sup> log<sup>3</sup> <em>n</em>) vs <em>O</em>(<em>n</em><sup>3</sup>)).
+        </li>
+      </ul>
+      <p>
+        It's worth noting that in empirical benchmarks, it has been observed that despite Karger–Stein's superior asymptotic bound on dense graphs, deterministic 
+        approaches like Stoer–Wagner (especially when paired with heuristic reductions) often run faster in practice on medium sized graphs [5].
+      </p>
     </section>
+
     <section id="space-complexity">
       <h2>Space Complexity</h2>
+      <ul>
+        <li>
+          <strong>Stoer–Wagner:</strong> 
+          Stoer–Wagner operates in-place on a single copy of the graph. Using adjacency lists and a priority queue requires 
+          <strong><em>O</em>(<em>n</em> + <em>m</em>)</strong> space, while an adjacency matrix implementation uses <strong><em>O</em>(<em>n</em><sup>2</sup>)</strong> space.
+        </li>
+        <li>
+          <strong>Basic Karger:</strong> Each run only tracks the 
+          current edge multiset and a Disjoint-Set Union structure. Because runs are independent, 
+          memory can be reused between trials, keeping total space at <strong><em>O</em>(<em>n</em> + <em>m</em>)</strong>.
+        </li>
+        <li>
+          <strong>Karger–Stein:</strong> Because Karger–Stein branches recursively 
+          into two independent subproblems on partially contracted graphs, it must store the intermediate graphs. Since vertex counts shrink geometrically 
+          (<em>n</em>, <em>n</em>/&radic;2, <em>n</em>/2, &hellip;), 
+          it uses <strong><em>O</em>(<em>n</em><sup>2</sup>)</strong> space [2].
+        </li>
+      </ul>
     </section>
+
     <section id="reliability">
       <h2>Correctness and Reliability</h2>
+      <ul>
+        <li>
+          <strong>Stoer–Wagner:</strong> Stoer–Wagner uses a mathematical proof to guarantee that the last 
+          two vertices ordered by Maximum Adjacency Search always form a valid <em>s–t</em> minimum cut in the current graph [6]. 
+          Because no randomness is used, it executes the exact same steps every time and will always output the exact global minimum 
+          cut on every run.
+        </li>
+        <li>
+          <strong>Karger/Karger–Stein:</strong> Karger's algorithms do not guarantee an optimal result. Because every contraction 
+          preserves valid cuts, the algorithm can never return a cut smaller than the true minimum <em>k</em>, meaning any error 
+          is always an overestimation of <em>k</em>. Additionally, there is no fast way for a Monte Carlo algorithm to confirm
+          that an answer is correct, with the fastest known certifier being a deterministic algorithm [11].
+        </li>
+      </ul>
+      <p>
+        Another thing to note is that deterministic algorithms are completely reproducible, which makes them easier to debug and test but also means it is possible
+        to intentionally construct worst case graphs that force maximum runtime. Conversely, randomised algorithms naturally avoid this 
+        due to their inherently non-deterministic nature [3].
+      </p>
     </section>
+
     <section id="error-rate">
       <h2>Error Rate</h2>
+      <ul>
+        <li>
+          <strong>Stoer–Wagner:</strong> The error rate is <strong>0</strong> since it never fails to find the exact minimum cut value.
+        </li>
+        <li>
+          <strong>Single-Run Karger:</strong> Fails with probability at most <strong>1 &minus; 2 / (<em>n</em>(<em>n</em> &minus; 1))</strong>. 
+          For a 100-vertex graph, a single run has a ~99.98% chance of missing a specific minimum cut 
+          (worst case, such as a cycle graph <em>C<sub>n</sub></em>).
+        </li>
+        <li>
+          <strong>Amplified Karger and Karger–Stein:</strong> By repeating basic Karger <em>C</em> &middot; C(<em>n</em>, 2) ln <em>n</em> times 
+          (or Karger–Stein <em>c</em> &middot; log<sup>2</sup> <em>n</em> times), the error rate reduces to at most 
+          <strong>1 / <em>n</em><sup><em>C</em></sup></strong> [2, 10]. While this isn't technically perfect, choosing <em>C</em> = 3 on a graph with 
+          1,000 vertices reduces the error probability to less than one in a billion, which in practice is usually lower than the probability of a hardware failure.
+        </li>
+      </ul>
     </section>
+
     <section id="applications">
       <h2>Real-World Applications</h2>
+      <ul>
+        <li>
+          <strong>Network Reliability:</strong> Determining the fewest link failures required to disconnect a telecommunications network, 
+          power grid, or transit system [11]. In safety critical infrastructure where it is important to guarantee correctness, 
+          deterministic algorithms like Stoer–Wagner are strongly preferred over randomised methods.
+        </li>
+        <li>
+          <strong>Graph Clustering:</strong> Finding tightly knit clusters in social networks, biological protein-interaction graphs 
+          or hypertext document graphs [9, 11]. Karger’s algorithm naturally lends itself to clustering: instead of contracting down 
+          to 2 supernodes, the process can be halted at <em>r</em> supernodes to identify <em>r</em> natural communities.
+        </li>
+        <li>
+          <strong>Parallel Processing:</strong> When a system needs to identify all near minimum cuts, Stoer-Wagner cannot be easily
+          parallelised and can only find one cut per run. Karger's algorithm naturally parallelizes much easier and is thus preferable
+          to find all minimum cuts across independent trials [2, 11].
+        </li>
+      </ul>
     </section>
+
     <section id="conclusion">
       <h2>Conclusion</h2>
+      <p>
+        This comparison between Stoer–Wagner and Karger’s algorithms demonstrates why both deterministic and randomised algorithms are each useful
+        in different situations, with their own strengths and weaknesses. You should choose the following when:
+      </p>
+      <ul>
+        <li>
+          <strong>Stoer–Wagner:</strong> You are utilising sparse to moderately dense graphs, 
+          do not require parallelisation, require a 0% error guarantee and/or you need predictable, 
+          reproducible outputs without running any repetitions [5, 6].
+        </li>
+        <li>
+          <strong>Karger/Karger-Stein:</strong> You need a simple implementation, are utilising very dense graphs, 
+          are searching for multiple distinct minimum cuts and/or you want to utilise parallelisation [2, 9].
+        </li>
+      </ul>
+      <p>
+        Karger’s algorithm proves that replacing a certain and deterministic algorithm with a randomised one 
+        can be the right choice in a variety of circumstances and that the error rate can be reduced arbitrarily
+        close to zero through repetition, minimising the downside of their inherent uncertainty [3, 10].
+      </p>
     </section>
   </main>
   <footer>
