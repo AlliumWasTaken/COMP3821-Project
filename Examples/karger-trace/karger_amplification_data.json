@@ -1,0 +1,276 @@
+{
+  "title": "Amplifying Karger's success probability on G",
+  "conventions": {
+    "contraction": "G/e merges the endpoints of e into one composite vertex, keeps parallel edges, removes self-loops.",
+    "edge_choice": "uniform over the edges of the current multigraph, parallel copies counted separately.",
+    "run": "One complete call to karger_verify.karger_once, starting from the original graph with fresh random choices.",
+    "trial": "A sequence of independent complete runs. At repetition T, retain the smallest cut among its first T runs.",
+    "failure": "The retained cut has size greater than min_cut.k.",
+    "sampling": "A random.Random(seed) stream advances across all runs. Trials at a fixed T are independent. Points at different T share trial prefixes.",
+    "probabilities": "Numeric probabilities lie in [0, 1]. Fields ending in _exact contain fraction strings.",
+    "theory_failure": "Exact failure probability (1-p)^T, where p is success_probability.exact.",
+    "empirical_failure": "failed_trials / experiment.trials.",
+    "failure_upper_bound": "General upper bound (1-p0)^T, with p0 = 2/(n(n-1))."
+  },
+  "graph": {
+    "vertices": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "f",
+      "g",
+      "h"
+    ],
+    "edges": [
+      [
+        "a",
+        "b"
+      ],
+      [
+        "a",
+        "c"
+      ],
+      [
+        "a",
+        "d"
+      ],
+      [
+        "b",
+        "g"
+      ],
+      [
+        "b",
+        "h"
+      ],
+      [
+        "c",
+        "f"
+      ],
+      [
+        "d",
+        "f"
+      ],
+      [
+        "g",
+        "h"
+      ]
+    ],
+    "n": 7,
+    "m": 8
+  },
+  "min_cut": {
+    "S": [
+      "b",
+      "g",
+      "h"
+    ],
+    "V_minus_S": [
+      "a",
+      "c",
+      "d",
+      "f"
+    ],
+    "k": 1,
+    "cut_edges": [
+      [
+        "a",
+        "b"
+      ]
+    ],
+    "unique": true
+  },
+  "success_probability": {
+    "exact": "9/28",
+    "decimal": 0.321429,
+    "bound_2_over_n_n_minus_1": "1/21"
+  },
+  "experiment": {
+    "trials": 100000,
+    "seed": 3821,
+    "max_repetitions": 20,
+    "total_karger_runs": 2000000
+  },
+  "points": [
+    {
+      "repetitions": 1,
+      "theory_failure": 0.6785714285714286,
+      "theory_failure_exact": "19/28",
+      "failed_trials": 67646,
+      "empirical_failure": 0.67646,
+      "failure_upper_bound": 0.9523809523809523,
+      "failure_upper_bound_exact": "20/21"
+    },
+    {
+      "repetitions": 2,
+      "theory_failure": 0.4604591836734694,
+      "theory_failure_exact": "361/784",
+      "failed_trials": 45801,
+      "empirical_failure": 0.45801,
+      "failure_upper_bound": 0.9070294784580499,
+      "failure_upper_bound_exact": "400/441"
+    },
+    {
+      "repetitions": 3,
+      "theory_failure": 0.31245444606413997,
+      "theory_failure_exact": "6859/21952",
+      "failed_trials": 30919,
+      "empirical_failure": 0.30919,
+      "failure_upper_bound": 0.8638375985314761,
+      "failure_upper_bound_exact": "8000/9261"
+    },
+    {
+      "repetitions": 4,
+      "theory_failure": 0.21202265982923782,
+      "theory_failure_exact": "130321/614656",
+      "failed_trials": 20881,
+      "empirical_failure": 0.20881,
+      "failure_upper_bound": 0.822702474791882,
+      "failure_upper_bound_exact": "160000/194481"
+    },
+    {
+      "repetitions": 5,
+      "theory_failure": 0.14387251916983995,
+      "theory_failure_exact": "2476099/17210368",
+      "failed_trials": 14119,
+      "empirical_failure": 0.14119,
+      "failure_upper_bound": 0.7835261664684591,
+      "failure_upper_bound_exact": "3200000/4084101"
+    },
+    {
+      "repetitions": 6,
+      "theory_failure": 0.09762778086524854,
+      "theory_failure_exact": "47045881/481890304",
+      "failed_trials": 9582,
+      "empirical_failure": 0.09582,
+      "failure_upper_bound": 0.7462153966366276,
+      "failure_upper_bound_exact": "64000000/85766121"
+    },
+    {
+      "repetitions": 7,
+      "theory_failure": 0.06624742272999008,
+      "theory_failure_exact": "893871739/13492928512",
+      "failed_trials": 6511,
+      "empirical_failure": 0.06511,
+      "failure_upper_bound": 0.7106813301301216,
+      "failure_upper_bound_exact": "1280000000/1801088541"
+    },
+    {
+      "repetitions": 8,
+      "theory_failure": 0.0449536082810647,
+      "theory_failure_exact": "16983563041/377801998336",
+      "failed_trials": 4491,
+      "empirical_failure": 0.04491,
+      "failure_upper_bound": 0.6768393620286872,
+      "failure_upper_bound_exact": "25600000000/37822859361"
+    },
+    {
+      "repetitions": 9,
+      "theory_failure": 0.03050423419072247,
+      "theory_failure_exact": "322687697779/10578455953408",
+      "failed_trials": 3047,
+      "empirical_failure": 0.03047,
+      "failure_upper_bound": 0.6446089162177974,
+      "failure_upper_bound_exact": "512000000000/794280046581"
+    },
+    {
+      "repetitions": 10,
+      "theory_failure": 0.020699301772275962,
+      "theory_failure_exact": "6131066257801/296196766695424",
+      "failed_trials": 2052,
+      "empirical_failure": 0.02052,
+      "failure_upper_bound": 0.6139132535407594,
+      "failure_upper_bound_exact": "10240000000000/16679880978201"
+    },
+    {
+      "repetitions": 11,
+      "theory_failure": 0.014045954774044404,
+      "theory_failure_exact": "116490258898219/8293509467471872",
+      "failed_trials": 1439,
+      "empirical_failure": 0.01439,
+      "failure_upper_bound": 0.5846792890864375,
+      "failure_upper_bound_exact": "204800000000000/350277500542221"
+    },
+    {
+      "repetitions": 12,
+      "theory_failure": 0.009531183596672987,
+      "theory_failure_exact": "2213314919066161/232218265089212416",
+      "failed_trials": 985,
+      "empirical_failure": 0.00985,
+      "failure_upper_bound": 0.5568374181775595,
+      "failure_upper_bound_exact": "4096000000000000/7355827511386641"
+    },
+    {
+      "repetitions": 13,
+      "theory_failure": 0.006467588869170956,
+      "theory_failure_exact": "42052983462257059/6502111422497947648",
+      "failed_trials": 629,
+      "empirical_failure": 0.00629,
+      "failure_upper_bound": 0.5303213506452947,
+      "failure_upper_bound_exact": "81920000000000000/154472377739119461"
+    },
+    {
+      "repetitions": 14,
+      "theory_failure": 0.004388721018366006,
+      "theory_failure_exact": "799006685782884121/182059119829942534144",
+      "failed_trials": 458,
+      "empirical_failure": 0.00458,
+      "failure_upper_bound": 0.5050679529955189,
+      "failure_upper_bound_exact": "1638400000000000000/3243919932521508681"
+    },
+    {
+      "repetitions": 15,
+      "theory_failure": 0.0029780606910340757,
+      "theory_failure_exact": "15181127029874798299/5097655355238390956032",
+      "failed_trials": 316,
+      "empirical_failure": 0.00316,
+      "failure_upper_bound": 0.4810170980909703,
+      "failure_upper_bound_exact": "32768000000000000000/68122318582951682301"
+    },
+    {
+      "repetitions": 16,
+      "theory_failure": 0.0020208268974874085,
+      "theory_failure_exact": "288441413567621167681/142734349946674946768896",
+      "failed_trials": 194,
+      "empirical_failure": 0.00194,
+      "failure_upper_bound": 0.4581115219914003,
+      "failure_upper_bound_exact": "655360000000000000000/1430568690241985328321"
+    },
+    {
+      "repetitions": 17,
+      "theory_failure": 0.0013712753947235986,
+      "theory_failure_exact": "5480386857784802185939/3996561798506898509529088",
+      "failed_trials": 134,
+      "empirical_failure": 0.00134,
+      "failure_upper_bound": 0.43629668761085744,
+      "failure_upper_bound_exact": "13107200000000000000000/30041942495081691894741"
+    },
+    {
+      "repetitions": 18,
+      "theory_failure": 0.0009305083035624419,
+      "theory_failure_exact": "104127350297911241532841/111903730358193158266814464",
+      "failed_trials": 92,
+      "empirical_failure": 0.00092,
+      "failure_upper_bound": 0.4155206548674833,
+      "failure_upper_bound_exact": "262144000000000000000000/630880792396715529789561"
+    },
+    {
+      "repetitions": 19,
+      "theory_failure": 0.0006314163488459427,
+      "theory_failure_exact": "1978419655660313589123979/3133304450029408431470804992",
+      "failed_trials": 68,
+      "empirical_failure": 0.00068,
+      "failure_upper_bound": 0.39573395701665076,
+      "failure_upper_bound_exact": "5242880000000000000000000/13248496640331026125580781"
+    },
+    {
+      "repetitions": 20,
+      "theory_failure": 0.00042846109385974684,
+      "theory_failure_exact": "37589973457545958193355601/87732524600823436081182539776",
+      "failed_trials": 47,
+      "empirical_failure": 0.00047,
+      "failure_upper_bound": 0.3768894828730007,
+      "failure_upper_bound_exact": "104857600000000000000000000/278218429446951548637196401"
+    }
+  ]
+}
