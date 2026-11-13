@@ -44,7 +44,7 @@
     </section>
     <section id="intuition">
       <h2>Intuition</h2>
-      <p>The algorithm runs |V| − 1 short phases, each of which produces one candidate cut, and then merges two vertices to shrink the graph. The lightest candidate over all phases is the minimum cut. <br><br>The foundational logic for this approach is that for any two vertices s and t, the true global minimum cut must either separate s and t, or it must place them on the same side. By finding the minimum cut separating a specific s and t (the cut of the phase), we evaluate the first scenario. If that cut is not the global minimum, s and t must belong to the same side of the global minimum cut, meaning we can safely merge them into a single vertex without destroying the true minimum cut.</p>
+      <p>The algorithm runs |V| - 1 short phases, each of which produces one candidate cut, and then merges two vertices to shrink the graph. The lightest candidate over all phases is the minimum cut. <br><br>The foundational logic for this approach is that for any two vertices s and t, the true global minimum cut must either separate s and t, or it must place them on the same side. By finding the minimum cut separating a specific s and t (the cut of the phase), we evaluate the first scenario. If that cut is not the global minimum, s and t must belong to the same side of the global minimum cut, meaning we can safely merge them into a single vertex without destroying the true minimum cut.</p>
     </section>
     <section id="phase">
       <h2>Minimum Cut Phase</h2>
@@ -66,15 +66,15 @@
         add to A the most tightly connected vertex
       return s, t, and the cut weight as the "cut of the phase"
 
-    MinimumCut(G):
-      minimum cut = nil
-      while |V| &gt; 1:
-        choose any a from V
-        cut of the phase = MinimumCutPhase(G, a)
-        if the "cut of the phase" cut is lighter than the current minimum cut:
-          minimum cut = cut of the phase
-        shrink G by merging the two vertices from the "cut of the phase" (s, t)
-      return the minimum cut</code></pre>
+      MinimumCut(G):
+        minimum cut = nil
+        while |V| &gt; 1:
+          choose any a from V
+          cut of the phase = MinimumCutPhase(G, a)
+          if the "cut of the phase" cut is lighter than the current minimum cut:
+            minimum cut = cut of the phase
+          shrink G by merging the two vertices from the "cut of the phase" (s, t)
+        return the minimum cut</code></pre>
     </section>
     <section id="example">
       <h2>Worked Example</h2>
@@ -82,8 +82,41 @@
         <noscript>This animation needs JavaScript.</noscript>
       </figure>
     </section>
-    <section id="proof">
+   <section id="proof">
       <h2>Proof of Correctness</h2>
+      <p>Let <var>s</var> and <var>t</var> be the last two vertices added in a phase, with <var>t</var> added last. Let <var>w</var>(<var>X</var>, <var>Y</var>) denote the total weight of the edges between two sets of vertices <var>X</var> and <var>Y</var>.</p>
+      <p>To prove the overall correctness of the algorithm, we must prove the following two claims.</p>
+
+      <h3>Claim 1: The cut of the phase, ({<var>t</var>}, <var>V</var> \ {<var>t</var>}), is a minimum <var>s</var>-<var>t</var> cut.</h3>
+      <p><strong>Proof.</strong> Let <var>C</var> denote any valid <var>s</var>-<var>t</var> cut. We must show that the cut of the phase is no heavier than <var>C</var> (i.e., <var>w</var>(<var>V</var> \ {<var>t</var>}, <var>t</var>) &leq; <var>w</var>(<var>C</var>)).</p>
+      <p>We define a vertex <var>v</var> as <em>active</em> if it is on the opposite side of <var>C</var> from the vertex added just before it. Because <var>s</var> and <var>t</var> are on opposite sides of <var>C</var> and <var>s</var> was added just before <var>t</var>, the vertex <var>t</var> is guaranteed to be active.</p>
+      <p>For an active vertex <var>v</var>, let <var>X</var><sub><var>v</var></sub> denote the set of vertices added before <var>v</var>, and let <var>C</var><sub><var>v</var></sub> be the edges of <var>C</var> that lie within <var>X</var><sub><var>v</var></sub> &cup; {<var>v</var>}. We claim that for every active vertex <var>v</var>,</p>
+      <p style="text-align: center;"><var>w</var>(<var>X</var><sub><var>v</var></sub>, <var>v</var>) &leq; <var>w</var>(<var>C</var><sub><var>v</var></sub>).</p>
+      <p>We prove this by induction through the active vertices in the order they were added.</p>
+
+      <h4>Base Case: First active vertex <var>v</var></h4>
+      <p>Since no earlier vertex is active, all of <var>X</var><sub><var>v</var></sub> must lie on the same side of <var>C</var>, while <var>v</var> is on the opposite side. Therefore, every edge between <var>X</var><sub><var>v</var></sub> and <var>v</var> crosses <var>C</var>. Thus, the two sides of the claim are exactly equal, and the condition holds.</p>
+
+      <h4>Inductive Step: Next active vertex <var>u</var> after an active vertex <var>v</var></h4>
+      <p>We partition the edges joining <var>u</var> to the earlier vertices into two distinct groups:</p>
+      <ul>
+        <li><strong>Edges from <var>X</var><sub><var>v</var></sub>:</strong> When <var>v</var> was chosen, it was the most tightly connected vertex to <var>X</var><sub><var>v</var></sub>, and <var>u</var> was a valid candidate. Hence, it holds that <var>w</var>(<var>X</var><sub><var>v</var></sub>, <var>u</var>) &leq; <var>w</var>(<var>X</var><sub><var>v</var></sub>, <var>v</var>). By our hypothesis for the previous active vertex <var>v</var>, <var>w</var>(<var>X</var><sub><var>v</var></sub>, <var>v</var>) &leq; <var>w</var>(<var>C</var><sub><var>v</var></sub>).</li>
+        <li><strong>Edges from vertices added from <var>v</var> up to just before <var>u</var>:</strong> None of these vertices are active except <var>v</var>, meaning they all reside on the same side as <var>v</var>. Since <var>u</var> is active, it is on the opposite side. Therefore, all these edges cross <var>C</var>, and they represent new edges of <var>C</var> that were strictly not counted in <var>C</var><sub><var>v</var></sub>.</li>
+      </ul>
+      <p>Adding these two groups together yields <var>w</var>(<var>X</var><sub><var>u</var></sub>, <var>u</var>) &leq; <var>w</var>(<var>C</var><sub><var>u</var></sub>).</p>
+      <p>Finally, since <var>t</var> is an active vertex and <var>X</var><sub><var>t</var></sub> &cup; {<var>t</var>} = <var>V</var> is the entire vertex set, it follows that <var>C</var><sub><var>t</var></sub> = <var>C</var>. Applying our claim yields <var>w</var>(<var>V</var> \ {<var>t</var>}, <var>t</var>) &leq; <var>w</var>(<var>C</var>). As this holds for any valid <var>s</var>–<var>t</var> cut <var>C</var>, the cut of the phase is guaranteed to be a minimum <var>s</var>–<var>t</var> cut.</p>
+
+      <h3>Claim 2: The smallest of the <var>n</var> - 1 cuts of the phase is a minimum cut of the input graph.</h3>
+      <p><strong>Proof.</strong> Let <var>k</var> denote the weight of a minimum cut. We proceed by induction on the number of vertices.</p>
+      <p>For a graph with exactly two vertices, there is only one valid cut, which corresponds to the cut of its only phase, so the claim trivially holds.</p>
+      <p>For a larger graph, consider the first phase, with <var>s</var> and <var>t</var> as the last two vertices added. We must consider the following two cases:</p>
+
+      <h4>Case 1: Some minimum cut separates <var>s</var> from <var>t</var></h4>
+      <p>This specific minimum cut is an <var>s</var>-<var>t</var> cut. As proven in Claim 1, the cut of the phase is a minimum <var>s</var>-<var>t</var> cut, meaning its weight is less than or equal to this cut. Thus, the cut of the phase is optimal and is a global minimum cut.</p>
+
+      <h4>Case 2: No minimum cut separates <var>s</var> from <var>t</var></h4>
+      <p>This implies that every minimum cut places <var>s</var> and <var>t</var> on the same side. By merging <var>s</var> and <var>t</var>, we only eliminate cuts that separate them. Consequently, the merged graph retains a cut of weight <var>k</var>. The remaining phases correspond exactly to running the algorithm on this smaller graph. By our inductive hypothesis, one of these subsequent phases will successfully find a cut of weight <var>k</var>.</p>
+      <p>Since every cut of the phase represents a valid cut of the original input graph, no cut can have a weight strictly less than <var>k</var>. Therefore, the smallest cut across all phases has a weight of exactly <var>k</var>, proving it is a minimum cut of the graph.</p>
     </section>
     <section id="complexity">
       <h2>Time and Space Complexity</h2>
