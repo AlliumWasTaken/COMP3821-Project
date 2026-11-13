@@ -48,15 +48,15 @@
     </section>
     <section id="phase">
       <h2>Minimum Cut Phase</h2>
-      <p>For a set of vertices X and a vertex v ∉ X, let w(X, v) be the total weight of the edges between X and v. The algorithm runs as follows:</p>
+      <p>For a set of vertices <var>X</var> and a vertex <var>v</var> &notin; <var>X</var>, let <var>w</var>(<var>X</var>, <var>v</var>) be the total weight of the edges between <var>X</var> and <var>v</var>. The algorithm runs as follows:</p>
       <ol>
-        <li>Choose an arbitrary starting vertex and let X be the set containing only that vertex.</li>
-        <li>While X ≠ V, add the vertex v ∉ X that maximises w(X, v) to the set X. Let t be the last vertex added and s the vertex added just before it.</li>
-        <li>The cut of the phase is the cut (A, B) with A = {t} and B = V \ {t}, which separates the vertex added last from the rest of the graph. Its weight is w(V \ {t}, t). If it is lower than the current minimum cut, store it as the current minimum cut.</li>
-        <li>Shrink the graph by merging s and t into a single vertex. Any edges from s and t to a remaining vertex are replaced by one edge weighted by the sum of the two previous weights, and edges joining s and t are removed.</li>
-        <li>While |V| > 1, repeat steps 1 to 4 on the shrunken graph. Each repetition is one phase, and there are n − 1 of them.</li>
-        <li>Return the stored minimum cut, which is the lightest of the n − 1 cuts of the phase. Each merged vertex is expanded back to the original vertices it represents, so the cut is reported as a partition of V.</li>
+        <li>Choose an arbitrary starting vertex and let <var>X</var> be the set containing only that vertex.</li>
+        <li>While <var>X</var> ≠ <var>V</var>, add to <var>X</var> the vertex <var>v</var> ∉ <var>X</var> that maximises <var>w</var>(<var>X</var>, <var>v</var>). Let <var>t</var> be the last vertex added and <var>s</var> the vertex added just before it.</li>
+        <li>The <em>cut of the phase</em> is ({<var>t</var>}, <var>V</var> \ {<var>t</var>}), with value <var>w</var>(<var>V</var> \ {<var>t</var>}, <var>t</var>).</li>
+        <li>Merge <var>s</var> and <var>t</var> into a single vertex. Edges from <var>s</var> and <var>t</var> to the same remaining vertex are replaced by one edge with the sum of their weights, and edges joining <var>s</var> and <var>t</var> are removed.</li>
       </ol>
+
+      <p>Run the minimum cut phase on the input graph and then on each shrunken graph until one vertex remains, giving <var>n</var> − 1 phases. Keep the lightest cut of the phase seen, and return it with each merged vertex expanded back to the original vertices it represents.</p>
     </section>
     <section id="pseudocode">
       <h2>Pseudocode</h2>
