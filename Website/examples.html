@@ -140,10 +140,7 @@ $$</p>
 
       <section id="solution-1">
         <h3>Solution</h3>
-        <p>Try the questions first. Each part of the solution below stays hidden until you open it. The player steps through traces A and B (questions 2 and 3) one contraction at a time.</p>
-        <figure class="graph-animation" data-kind="karger-trace" data-source="problem1">
-          <noscript>This animation needs JavaScript.</noscript>
-        </figure>
+        <p>Try the questions first. Each part of the solution below stays hidden until you open it.</p>
 
         <h4>2. Ground truth: the minimum cut</h4>
         <details>
@@ -350,6 +347,15 @@ $$</p>
             <li><strong>Confusing contracted edges with cut edges.</strong> The edges you contract end up <strong>inside</strong> the two sides. The cut is formed by the edges <strong>left over</strong> at the end. In trace A we contracted 5 edges (and removed 2 self-loops), and the cut is the 1 remaining edge.</li>
             <li><strong>"The run failed at the last step."</strong> In trace B the failure happened at step B2. Steps B3 to B5 only decided <em>which</em> wrong cut came out.</li>
           </ul>
+        </details>
+
+        <h4>Step-by-step animation of traces A and B</h4>
+        <details>
+          <summary>Show step-by-step animation</summary>
+          <p>The player steps through traces A and B (questions 2 and 3) one contraction at a time.</p>
+          <figure class="graph-animation" data-kind="karger-trace" data-source="problem1">
+            <noscript>This animation needs JavaScript.</noscript>
+          </figure>
         </details>
 
         <h4>5. Probability analysis</h4>
