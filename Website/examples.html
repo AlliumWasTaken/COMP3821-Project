@@ -136,7 +136,7 @@ $$</p>
         <li>Find a 3-step sequence that fails, and state the cut it returns and its value.</li>
         <li><em>(Challenge)</em> Find the exact single-run success probability. (Hint: use the random-order view from §5.2. $K_4$ has 16 spanning trees.)</li>
       </ol>
-      <p>Answers are in the appendix at the end. Try first!</p>
+      <p>Answers are in the <a href="#answers-1">appendix at the end of the solution</a> below. Try first!</p>
 
       <section id="solution-1">
         <h3>Solution</h3>
@@ -160,7 +160,7 @@ $$</p>
             </details>
           </blockquote>
 
-          <p><strong>Brute-force verification.</strong> A cut is an unordered pair $\{S, V\setminus S\}$ with $\emptyset \ne S \ne V$. Fixing $a \notin S$ lists every cut exactly once, which gives $2^{n-1} - 1 = 63$ cuts. Enumerating all of them (<code>brute_force_min_cut</code> in <code>karger_verify.py</code>) gives:</p>
+          <p><strong>Brute-force verification.</strong> A cut is an unordered pair $\{S, V\setminus S\}$ with $\emptyset \ne S \ne V$. Fixing $a \notin S$ lists every cut exactly once, which gives $2^{n-1} - 1 = 63$ cuts. Enumerating all of them (<code>brute_force_min_cut</code> in <a href="https://github.com/AlliumWasTaken/COMP3821-Project/blob/main/Examples/karger-trace/karger_verify.py"><code>karger_verify.py</code></a>) gives:</p>
 
           <div style="overflow-x: auto;">
             <table style="width:100%; border-collapse: collapse; margin: 1rem 0; border: 1px solid var(--border);">
@@ -402,7 +402,7 @@ $$</p>
           <p>Note that the product $5/16$ is the probability of avoiding $a\text{–}b$ <strong>along the multigraphs of trace A</strong>. Different runs pass through different multigraphs with different $m_i$, so the true success probability averages over all of them (next subsection).</p>
 
           <h5>5.2 The exact single-run success probability</h5>
-          <p><strong>Method 1 (computer, exhaustive).</strong> <code>karger_verify.py</code> computes it in two independent ways:</p>
+          <p><strong>Method 1 (computer, exhaustive).</strong> <a href="https://github.com/AlliumWasTaken/COMP3821-Project/blob/main/Examples/karger-trace/karger_verify.py"><code>karger_verify.py</code></a> computes it in two independent ways:</p>
           <ul>
             <li><strong>Exhaustive enumeration</strong> of every possible sequence of edge-copy choices (5040 sequences, each weighted by its probability $\prod \frac{1}{m_i}$).</li>
             <li><strong>Dynamic programming</strong> over the 119 reachable partitions of $V$. From each partition, every pair $X\text{–}Y$ with multiplicity $\mu$ is taken with probability $\mu/m$.</li>
@@ -459,10 +459,10 @@ $$</p>
           </ul>
 
           <h5>5.4 Looking ahead</h5>
-          <p>A single run succeeds only with probability $9/28$. Since runs are independent, repeating the algorithm and keeping the smallest cut found drives the failure probability down quickly. How many repetitions are needed in general is the topic of the following part</p>
+          <p>A single run succeeds only with probability $9/28$. Since runs are independent, repeating the algorithm and keeping the smallest cut found drives the failure probability down quickly. How many repetitions are needed in general is the topic of the next guided problem, <a href="examples.html#problem-2">Problem 2</a>.</p>
         </details>
 
-        <h4>Appendix: answers to the follow-up (§6)</h4>
+        <h4 id="answers-1" style="scroll-margin-top: 6rem;">Appendix: answers to the follow-up (§6)</h4>
         <details>
           <summary>Show solution</summary>
 
@@ -501,7 +501,7 @@ $$</p>
         <li>J. Kleinberg and É. Tardos, <em>Algorithm Design</em>, Pearson, 2006, §13.2 "Finding the Global Minimum Cut". Background reading at an undergraduate level.</li>
         <li>R. Motwani and P. Raghavan, <em>Randomized Algorithms</em>, Cambridge University Press, 1995, §1.1. The min-cut example as an introduction to Monte Carlo algorithms.</li>
       </ol>
-      <p>All numbers in this problem are generated and checked by <code>karger_verify.py</code>. The step-by-step data for the simulation is in <code>karger_trace_spec.json</code>.</p>
+      <p>All numbers in this problem are generated and checked by <a href="https://github.com/AlliumWasTaken/COMP3821-Project/blob/main/Examples/karger-trace/karger_verify.py"><code>karger_verify.py</code></a>. The step-by-step data for the simulation is in <a href="https://github.com/AlliumWasTaken/COMP3821-Project/blob/main/Examples/karger-trace/karger_trace_spec.json"><code>karger_trace_spec.json</code></a>.</p>
     </section>
     <section id="problem-2">
       <h2>Problem 2</h2>
