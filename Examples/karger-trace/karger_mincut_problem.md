@@ -62,7 +62,7 @@ $$
 > $$S = \{b, g, h\},\quad V \setminus S = \{a, c, d, f\},\quad \text{cut edges} = \{a\text{–}b\},\quad k = 1.$$
 > </details>
 
-**Brute-force verification.** A cut is an unordered pair $\{S, V\setminus S\}$ with $\emptyset \ne S \ne V$. Fixing $a \notin S$ lists every cut exactly once, which gives $2^{n-1} - 1 = 63$ cuts. Enumerating all of them (`brute_force_min_cut` in `karger_verify.py`) gives:
+**Brute-force verification.** A cut is an unordered pair $\{S, V\setminus S\}$ with $\emptyset \ne S \ne V$. Fixing $a \notin S$ lists every cut exactly once, which gives $2^{n-1} - 1 = 63$ cuts. Enumerating all of them (`brute_force_min_cut` in [`karger_verify.py`](https://github.com/AlliumWasTaken/COMP3821-Project/blob/main/Examples/karger-trace/karger_verify.py)) gives:
 
 | cut value | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 |---|---|---|---|---|---|---|---|
@@ -255,7 +255,7 @@ Note that the product $5/16$ is the probability of avoiding $a\text{–}b$ **alo
 
 ### 5.2 The exact single-run success probability
 
-**Method 1 (computer, exhaustive).** `karger_verify.py` computes it in two independent ways:
+**Method 1 (computer, exhaustive).** [`karger_verify.py`](https://github.com/AlliumWasTaken/COMP3821-Project/blob/main/Examples/karger-trace/karger_verify.py) computes it in two independent ways:
 - **Exhaustive enumeration** of every possible sequence of edge-copy choices (5040 sequences, each weighted by its probability $\prod \frac{1}{m_i}$).
 - **Dynamic programming** over the 119 reachable partitions of $V$. From each partition, every pair $X\text{–}Y$ with multiplicity $\mu$ is taken with probability $\mu/m$.
 
@@ -306,7 +306,7 @@ The exact value is about $6.75\times$ the general bound. The bound is a **worst 
 
 ### 5.4 Looking ahead
 
-A single run succeeds only with probability $9/28$. Since runs are independent, repeating the algorithm and keeping the smallest cut found drives the failure probability down quickly. How many repetitions are needed in general is the topic of the following part
+A single run succeeds only with probability $9/28$. Since runs are independent, repeating the algorithm and keeping the smallest cut found drives the failure probability down quickly. How many repetitions are needed in general is the topic of the next guided problem, [Problem 2](../../Website/examples.html#problem-2) (source: [`karger_mincut_problem_sequel.md`](karger_mincut_problem_sequel.md)).
 
 ---
 
@@ -324,7 +324,7 @@ $$
 4. Find a 3-step sequence that fails, and state the cut it returns and its value.
 5. *(Challenge)* Find the exact single-run success probability. (Hint: use the random-order view from §5.2. $K_4$ has 16 spanning trees.)
 
-Answers are in the appendix at the end. Try first!
+Answers are in the [appendix at the end of this document](#appendix-answers-to-the-follow-up-6). Try first!
 
 ---
 
@@ -336,7 +336,7 @@ Answers are in the appendix at the end. Try first!
 4. J. Kleinberg and É. Tardos, *Algorithm Design*, Pearson, 2006, §13.2 "Finding the Global Minimum Cut". Background reading at an undergraduate level.
 5. R. Motwani and P. Raghavan, *Randomized Algorithms*, Cambridge University Press, 1995, §1.1. The min-cut example as an introduction to Monte Carlo algorithms.
 
-All numbers in this problem are generated and checked by `karger_verify.py`. The step-by-step data for the simulation is in `karger_trace_spec.json`.
+All numbers in this problem are generated and checked by [`karger_verify.py`](https://github.com/AlliumWasTaken/COMP3821-Project/blob/main/Examples/karger-trace/karger_verify.py). The step-by-step data for the simulation is in [`karger_trace_spec.json`](https://github.com/AlliumWasTaken/COMP3821-Project/blob/main/Examples/karger-trace/karger_trace_spec.json).
 
 ---
 ---
