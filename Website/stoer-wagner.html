@@ -19,7 +19,6 @@
         <li><a href="stoer-wagner.html" aria-current="page">Stoer-Wagner</a></li>
         <li><a href="comparison.html">Comparison</a></li>
         <li><a href="examples.html">Examples</a></li>
-        <li><a href="karger-stein.html">Karger-Stein</a></li>
         <li><a href="references.html">References</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
@@ -60,21 +59,23 @@
     </section>
     <section id="pseudocode">
       <h2>Pseudocode</h2>
-      <pre><code>MinimumCutPhase(G, a):
+      <pre><code>
+      MinimumCutPhase(G, a):
       A &lt;- {a}
       while A != V:
         add to A the most tightly connected vertex
       return s, t, and the cut weight as the "cut of the phase"
-
+      </code></pre>
+      <pre><code>
       MinimumCut(G):
-        minimum cut = nil
-        while |V| &gt; 1:
-          choose any a from V
-          cut of the phase = MinimumCutPhase(G, a)
-          if the "cut of the phase" cut is lighter than the current minimum cut:
-            minimum cut = cut of the phase
-          shrink G by merging the two vertices from the "cut of the phase" (s, t)
-        return the minimum cut</code></pre>
+      minimum cut = nil
+      while |V| &gt; 1:
+        choose any a from V
+        cut of the phase = MinimumCutPhase(G, a)
+        if the "cut of the phase" cut is lighter than the current minimum cut:
+          minimum cut = cut of the phase
+        shrink G by merging the two vertices from the "cut of the phase" (s, t)
+      return the minimum cut</code></pre>
     </section>
     <section id="example">
       <h2>Worked Example</h2>

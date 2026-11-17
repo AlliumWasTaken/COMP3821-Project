@@ -19,7 +19,6 @@
         <li><a href="stoer-wagner.html">Stoer-Wagner</a></li>
         <li><a href="comparison.html">Comparison</a></li>
         <li><a href="examples.html">Examples</a></li>
-        <li><a href="karger-stein.html">Karger-Stein</a></li>
         <li><a href="references.html">References</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
@@ -55,7 +54,7 @@
     </section>
     <section id="global-vs-st">
       <h2>Global vs. s-t Minimum Cuts</h2>
-      <p>A closely related problem is the <var>s</var>–<var>t</var> minimum cut, which asks for a minimum value cut with a given source <var>s</var> on one side, and a sink <var>t</var> on the other. By the Max-flow Min-cut Theorem, its value equals the maximum <var>s</var>–<var>t</var> flow, which follows that it can be computed by any max-flow algorithm. This project instead seeks to address the global minimum cut, the minimum over all pairs <var>s</var>, <var>t</var> of the minimum <var>s</var>–<var>t</var> cut. Fixing <var>s</var> and trying every <var>t</var> would need <var>n</var> − 1 max-flow computations. To avoid this, we will be discussing the Stoer-Wagner Algorithm.</p>
+      <p>A closely related problem is the <var>s</var>–<var>t</var> minimum cut, which asks for a minimum value cut with a given source <var>s</var> on one side, and a sink <var>t</var> on the other. By the Max-flow Min-cut Theorem, its value equals the maximum <var>s</var>–<var>t</var> flow, which follows that it can be computed by any max-flow algorithm. <br><br>This project instead seeks to address the global minimum cut, the minimum over all pairs <var>s</var>, <var>t</var> of the minimum <var>s</var>–<var>t</var> cut. Fixing <var>s</var> and trying every <var>t</var> would need <var>n</var> − 1 max-flow computations. To avoid this, we will be discussing two different algorithms that both solve it efficiently, using different methods.</p>
     </section>
     <section id="multigraphs">
       <h2>Weighted Multigraphs</h2>
