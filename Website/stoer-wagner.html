@@ -40,11 +40,11 @@
     </nav>
     <section id="overview">
       <h2>Overview</h2>
-      <p>The Stoer-Wagner algorithm, created by Mechthild Stoer and Frank Wagner in 1994, solves the global minimum cut problem deterministically and without computing maximum flow. It takes an undirected graph G = (V, E) with n = |V| vertices and a nonnegative edge weight w(e) on every edge. An undirected graph is the case where every edge weight is 1, and a multigraph can be collapsed into this form by summing parallel edges.</p>
+      <p>The Stoer-Wagner algorithm, created by Mechthild Stoer and Frank Wagner in 1994, solves the global minimum cut problem deterministically and without computing maximum flow. It takes an undirected graph <var>G = (V, E)</var>with <var>n = |V|</var> vertices and a nonnegative edge weight <var>w(e)</var> on every edge. An undirected graph is the case where every edge weight is 1, and a multigraph can be collapsed into this form by summing parallel edges.</p>
     </section>
     <section id="intuition">
       <h2>Intuition</h2>
-      <p>The algorithm runs |V| - 1 short phases, each of which produces one candidate cut, and then merges two vertices to shrink the graph. The lightest candidate over all phases is the minimum cut. <br><br>The foundational logic for this approach is that for any two vertices s and t, the true global minimum cut must either separate s and t, or it must place them on the same side. By finding the minimum cut separating a specific s and t (the cut of the phase), we evaluate the first scenario. If that cut is not the global minimum, s and t must belong to the same side of the global minimum cut, meaning we can safely merge them into a single vertex without destroying the true minimum cut.</p>
+      <p>The algorithm runs |<var>V</var>| - 1 short phases, each of which produces one candidate cut, and then merges two vertices to shrink the graph. The lightest candidate over all phases is the minimum cut. <br><br>The foundational logic for this approach is that for any two vertices <var>s</var> and <var>t</var>, the true global minimum cut must either separate <var>s</var> and <var>t</var>, or it must place them on the same side. By finding the minimum cut separating a specific <var>s</var> and <var>t</var> (the cut of the phase), we evaluate the first scenario. If that cut is not the global minimum, <var>s</var> and <var>t</var> must belong to the same side of the global minimum cut, meaning we can safely merge them into a single vertex without destroying the true minimum cut.</p>
     </section>
     <section id="phase">
       <h2>Minimum Cut Phase</h2>
