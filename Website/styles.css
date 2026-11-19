@@ -452,3 +452,101 @@ footer a[rel="next"] {
     transition: none;
   }
 }
+
+.problem h3 {
+  margin-top: 2.25rem;
+  scroll-margin-top: 6rem;
+}
+
+.problem h4 {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 1rem;
+  scroll-margin-top: 6rem;
+}
+
+.problem sub,
+.problem sup {
+  line-height: 0;
+  white-space: nowrap;
+}
+
+.hat {
+  position: relative;
+}
+
+.hat::after {
+  content: "\02C6";
+  position: absolute;
+  top: -0.36em;
+  left: 0;
+  right: 0;
+  font-style: normal;
+  text-align: center;
+}
+
+.math {
+  padding: 0.15rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-align: center;
+}
+
+.boxed {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--text);
+  border-radius: 6px;
+}
+
+.callout {
+  margin: 1.25rem 0;
+  padding: 0.9rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.callout > :first-child {
+  margin-top: 0;
+}
+
+.callout > :last-child {
+  margin-bottom: 0;
+}
+
+.callout details {
+  margin-top: 0.6rem;
+}
+
+.callout summary {
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.table-scroll {
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+.problem table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg);
+}
+
+.problem th,
+.problem td {
+  padding: 0.5rem;
+  text-align: left;
+  border: 1px solid var(--border);
+}
+
+.problem thead th {
+  background: var(--surface);
+}
+
+.problem .compact th,
+.problem .compact td {
+  white-space: nowrap;
+}
