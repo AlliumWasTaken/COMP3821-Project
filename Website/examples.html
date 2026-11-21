@@ -44,7 +44,7 @@
           <li>Trace a similar graph on your own.</li>
         </ol>
       </div>
-      <p><strong>Notation</strong> (the same as the rest of the site). <var>n</var> = |<var>V</var>|, <var>m</var> = |<var>E</var>|, <var>k</var> = size of a minimum cut, <var>G</var>&nbsp;/&nbsp;<var>e</var> = the contraction of edge <var>e</var>. A composite vertex is written as the set of original vertices it contains, e.g. {<var>c</var>,&nbsp;<var>f</var>}. A vertex that has not been merged yet is written as a plain letter, e.g. <var>a</var>. We write <var>X</var>–&NoBreak;<var>Y</var> for an edge between (possibly composite) vertices <var>X</var> and <var>Y</var>, and <var>X</var>–&NoBreak;<var>Y</var>&nbsp;&times;&nbsp;2 for two parallel copies of it.</p>
+      <p><strong>Notation</strong>. <var>n</var> = |<var>V</var>|, <var>m</var> = |<var>E</var>|, <var>k</var> = size of a minimum cut, <var>G</var>&nbsp;/&nbsp;<var>e</var> = the contraction of edge <var>e</var>. A composite vertex is written as the set of original vertices it contains, e.g. {<var>c</var>,&nbsp;<var>f</var>}. A vertex that has not been merged yet is written as a plain letter, e.g. <var>a</var>. We write <var>X</var>-&NoBreak;<var>Y</var> for an edge between (possibly composite) vertices <var>X</var> and <var>Y</var>, and <var>X</var>-&NoBreak;<var>Y</var>&nbsp;&times;&nbsp;2 for two parallel copies of it.</p>
       <p><strong>Reminder of the definitions</strong></p>
       <ul>
         <li><em>Contraction</em> <var>G</var>&nbsp;/&nbsp;<var>e</var> for <var>e</var> = {<var>u</var>,&nbsp;<var>v</var>}: replace <var>u</var> and <var>v</var> by one composite vertex, redirect every edge incident to <var>u</var> or <var>v</var> to it, <strong>remove self-loops</strong>, and <strong>keep parallel edges</strong>.</li>
@@ -52,11 +52,11 @@
         <li>Karger's algorithm is a <strong>Monte Carlo</strong> algorithm: its running time is fixed, but it may return a wrong (non-minimum) cut.</li>
       </ul>
 
-      <h3 id="p1-1">1. The problem</h3>
+      <h3 id="p1-1">1. The Problem</h3>
       <p>Let <var>G</var> = (<var>V</var>,&nbsp;<var>E</var>) be the undirected, unweighted, simple graph with</p>
       <p class="math"><var>V</var> = {<var>a</var>,&nbsp;<var>b</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>},&emsp;<var>n</var> = 7,</p>
-      <p class="math"><var>E</var> = {<var>a</var>–&NoBreak;<var>b</var>, <var>a</var>–&NoBreak;<var>c</var>, <var>a</var>–&NoBreak;<var>d</var>, <var>b</var>–&NoBreak;<var>g</var>, <var>b</var>–&NoBreak;<var>h</var>, <var>c</var>–&NoBreak;<var>f</var>, <var>d</var>–&NoBreak;<var>f</var>, <var>g</var>–&NoBreak;<var>h</var>},&emsp;<var>m</var> = 8.</p>
-      <p>(We skip the letter <var>e</var>, which denotes an edge, and never use <var>w</var>, which denotes edge weight elsewhere on the site.)</p>
+      <p class="math"><var>E</var> = {<var>a</var>-&NoBreak;<var>b</var>, <var>a</var>-&NoBreak;<var>c</var>, <var>a</var>-&NoBreak;<var>d</var>, <var>b</var>-&NoBreak;<var>g</var>, <var>b</var>-&NoBreak;<var>h</var>, <var>c</var>-&NoBreak;<var>f</var>, <var>d</var>-&NoBreak;<var>f</var>, <var>g</var>-&NoBreak;<var>h</var>},&emsp;<var>m</var> = 8.</p>
+      <p>(We skip the letter <var>e</var>, which denotes an edge)</p>
       <div class="table-scroll">
         <table class="compact">
           <thead>
@@ -70,20 +70,19 @@
       </div>
       <p><strong>Questions.</strong></p>
       <ol>
-        <li><strong>(Ground truth)</strong> Find a minimum cut of <var>G</var> and its value <var>k</var>. Is it unique?</li>
-        <li><strong>(Trace A)</strong> Run Karger's algorithm by hand using the contraction sequence below. After every step, record the chosen edge, the probability of choosing it, the composite vertices, and the full edge multiset.
-          <p class="math"><var>c</var>–&NoBreak;<var>f</var>,&emsp;<var>b</var>–&NoBreak;<var>h</var>,&emsp;{<var>b</var>,&nbsp;<var>h</var>}–&NoBreak;<var>g</var>,&emsp;<var>a</var>–&NoBreak;<var>d</var>,&emsp;{<var>a</var>,&nbsp;<var>d</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>}</p>
+        <li>Find a minimum cut of <var>G</var> and its value <var>k</var>. Is it unique?</li>
+        <li>Run Karger's algorithm by hand using the contraction sequence below. After every step, record the chosen edge, the probability of choosing it, the composite vertices, and the full edge multiset.
+          <p class="math"><var>c</var>-&NoBreak;<var>f</var>,&emsp;<var>b</var>-&NoBreak;<var>h</var>,&emsp;{<var>b</var>,&nbsp;<var>h</var>}-&NoBreak;<var>g</var>,&emsp;<var>a</var>-&NoBreak;<var>d</var>,&emsp;{<var>a</var>,&nbsp;<var>d</var>}-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>}</p>
         </li>
-        <li><strong>(Trace B)</strong> Do the same for
-          <p class="math"><var>g</var>–&NoBreak;<var>h</var>,&emsp;<var>a</var>–&NoBreak;<var>b</var>,&emsp;<var>c</var>–&NoBreak;<var>f</var>,&emsp;{<var>c</var>,&nbsp;<var>f</var>}–&NoBreak;<var>d</var>,&emsp;{<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}</p>
+        <li>Do the same for
+          <p class="math"><var>g</var>-&NoBreak;<var>h</var>,&emsp;<var>a</var>-&NoBreak;<var>b</var>,&emsp;<var>c</var>-&NoBreak;<var>f</var>,&emsp;{<var>c</var>,&nbsp;<var>f</var>}-&NoBreak;<var>d</var>,&emsp;{<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}</p>
           Which cut is returned? Is it minimum? If not, at which step did the run go wrong?
         </li>
-        <li><strong>(Probability)</strong> For trace A, compute at each step the probability that the step does not contract a minimum-cut edge, given that no earlier step did. Then find the <strong>exact</strong> probability that one run of Karger's algorithm on <var>G</var> returns the minimum cut, and compare it with 2&nbsp;/&nbsp;(<var>n</var>(<var>n</var>&nbsp;&minus;&nbsp;1)).</li>
+        <li>For trace A, compute at each step the probability that the step does not contract a minimum-cut edge, given that no earlier step did. Then find the <strong>exact</strong> probability that one run of Karger's algorithm on <var>G</var> returns the minimum cut, and compare it with 2&nbsp;/&nbsp;(<var>n</var>(<var>n</var>&nbsp;&minus;&nbsp;1)).</li>
       </ol>
 
-      <h3 id="p1-2">2. Ground truth: the minimum cut</h3>
+      <h3 id="p1-2">2. The Minimum Cut</h3>
       <div class="callout">
-        <p><strong>Checkpoint 1: guess first</strong></p>
         <p>Every vertex of <var>G</var> has degree at least 2. Does cutting off one vertex of smallest degree, say {<var>c</var>}, give a minimum cut? Can you find a cut whose value is <strong>less than 2</strong>?</p>
         <details>
           <summary>Hint</summary>
@@ -91,11 +90,11 @@
         </details>
         <details>
           <summary>Model answer</summary>
-          <p>Cutting off {<var>c</var>} gives value deg(<var>c</var>) = 2, but that is <strong>not</strong> the minimum. The edge <var>a</var>–&NoBreak;<var>b</var> lies on no cycle: the vertices <var>a</var>, <var>c</var>, <var>f</var>, <var>d</var> form a 4-cycle <var>a</var>–&NoBreak;<var>c</var>–&NoBreak;<var>f</var>–&NoBreak;<var>d</var>–&NoBreak;<var>a</var>, and <var>b</var>, <var>g</var>, <var>h</var> form a triangle, and <var>a</var>–&NoBreak;<var>b</var> is the only edge between them. Removing it disconnects the graph, so</p>
-          <p class="math"><var>S</var> = {<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>},&emsp;<var>V</var> \ <var>S</var> = {<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>},&emsp;cut edges = {<var>a</var>–&NoBreak;<var>b</var>},&emsp;<var>k</var> = 1.</p>
+          <p>Cutting off {<var>c</var>} gives value deg(<var>c</var>) = 2, but that is <strong>not</strong> the minimum. The edge <var>a</var>-&NoBreak;<var>b</var> lies on no cycle: the vertices <var>a</var>, <var>c</var>, <var>f</var>, <var>d</var> form a 4-cycle <var>a</var>-&NoBreak;<var>c</var>-&NoBreak;<var>f</var>-&NoBreak;<var>d</var>-&NoBreak;<var>a</var>, and <var>b</var>, <var>g</var>, <var>h</var> form a triangle, and <var>a</var>-&NoBreak;<var>b</var> is the only edge between them. Removing it disconnects the graph, so</p>
+          <p class="math"><var>S</var> = {<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>},&emsp;<var>V</var> \ <var>S</var> = {<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>},&emsp;cut edges = {<var>a</var>-&NoBreak;<var>b</var>},&emsp;<var>k</var> = 1.</p>
         </details>
       </div>
-      <p><strong>Brute-force verification.</strong> A cut is an unordered pair {<var>S</var>, <var>V</var> \ <var>S</var>} with &empty; &ne; <var>S</var> &ne; <var>V</var>. Fixing <var>a</var> &notin; <var>S</var> lists every cut exactly once, which gives 2<sup><var>n</var>&minus;1</sup> &minus; 1 = 63 cuts. Enumerating all of them (<code>brute_force_min_cut</code> in <code>karger_verify.py</code>) gives:</p>
+      <p>A cut is an unordered pair {<var>S</var>, <var>V</var> \ <var>S</var>} with &empty; &ne; <var>S</var> &ne; <var>V</var>. Fixing <var>a</var> &notin; <var>S</var> lists every cut exactly once, which gives 2<sup><var>n</var>&minus;1</sup> &minus; 1 = 63 cuts. Enumerating all of them gives:</p>
       <div class="table-scroll">
         <table class="compact">
           <thead>
@@ -106,68 +105,58 @@
           </tbody>
         </table>
       </div>
-      <p>So <var>k</var> = 1, and the minimum cut {<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}&nbsp;|&nbsp;{<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>} is <strong>unique</strong>. The 9 cuts of value 2 are: {<var>c</var>}, {<var>d</var>}, {<var>f</var>}, {<var>c</var>,&nbsp;<var>f</var>}, {<var>d</var>,&nbsp;<var>f</var>}, {<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>} (splitting the 4-cycle side) and {<var>g</var>}, {<var>h</var>}, {<var>g</var>,&nbsp;<var>h</var>} (splitting the triangle side). Remember these, because every failed run will return one of them.</p>
-      <p>The guess "cut off a vertex of smallest degree" gives 2, not 1. A careless answer is wrong here.</p>
-      <p><strong>Common misconceptions at this stage</strong></p>
-      <ul>
-        <li><em>"The minimum cut is the smallest degree."</em> The smallest degree is only an <strong>upper bound</strong> on <var>k</var>. Here it is 2 but <var>k</var> = 1.</li>
-        <li><em>"There are 2<sup><var>n</var></sup> cuts."</em> <var>S</var> and <var>V</var> \ <var>S</var> are the same cut, and <var>S</var> = &empty; or <var>S</var> = <var>V</var> is not a cut. That leaves 2<sup><var>n</var>&minus;1</sup> &minus; 1.</li>
-        <li><em>"Min cut means min <var>s</var>–&NoBreak;<var>t</var> cut."</em> Karger finds a <strong>global</strong> minimum cut. No source or sink is given.</li>
-      </ul>
-
-      <h3 id="p1-3">3. Worked trace A: a run that succeeds</h3>
-      <p><strong>How to do one step.</strong> Before contracting <var>X</var>–&NoBreak;<var>Y</var>, check two things:</p>
+      <p>So <var>k</var> = 1, and the minimum cut {<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}&nbsp;|&nbsp;{<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>} is <strong>unique</strong>. The 9 cuts of value 2 are: {<var>c</var>}, {<var>d</var>}, {<var>f</var>}, {<var>c</var>,&nbsp;<var>f</var>}, {<var>d</var>,&nbsp;<var>f</var>}, {<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>} and {<var>g</var>}, {<var>h</var>}, {<var>g</var>,&nbsp;<var>h</var>}. Remember these, because every failed run will return one of them.</p>
+      <h3 id="p1-3">3. Worked Trace A: Successful Run</h3>
+      <p>Before contracting <var>X</var>-&NoBreak;<var>Y</var>, first check:</p>
       <ol>
-        <li><strong>Multiplicity of <var>X</var>–&NoBreak;<var>Y</var>.</strong> If there are <var>&mu;</var> parallel copies, the step's probability is <var>&mu;</var>/<var>m</var> (any copy gives the same result), and after contracting one copy the other <var>&mu;</var> &minus; 1 copies become <strong>self-loops, which are removed</strong>. So <var>m</var> drops by <var>&mu;</var>.</li>
-        <li><strong>Common neighbours of <var>X</var> and <var>Y</var>.</strong> If both are adjacent to some <var>Z</var>, the edges <var>X</var>–&NoBreak;<var>Z</var> and <var>Y</var>–&NoBreak;<var>Z</var> both become {<var>X</var> &cup; <var>Y</var>}–&NoBreak;<var>Z</var>: <strong>parallel edges are created</strong> (kept, not merged).</li>
+        <li><strong>Multiplicity of <var>X</var>-&NoBreak;<var>Y</var>.</strong> If there are <var>&mu;</var> parallel copies, the step's probability is <var>&mu;</var>/<var>m</var> (any copy gives the same result), and after contracting one copy the other <var>&mu;</var> &minus; 1 copies become <strong>self-loops, which are removed</strong>. So <var>m</var> drops by <var>&mu;</var>.</li>
+        <li><strong>Common neighbours of <var>X</var> and <var>Y</var>.</strong> If both are adjacent to some <var>Z</var>, the edges <var>X</var>-&NoBreak;<var>Z</var> and <var>Y</var>-&NoBreak;<var>Z</var> both become {<var>X</var> &cup; <var>Y</var>}-&NoBreak;<var>Z</var>: <strong>parallel edges are created</strong>.</li>
       </ol>
       <p>If <var>&mu;</var> = 1 and there is no common neighbour, the contraction is <strong>ordinary</strong>: only the one edge disappears and nothing else changes shape.</p>
-      <p>The minimum-cut edge is <var>a</var>–&NoBreak;<var>b</var>. It is marked <strong>bold</strong> wherever it appears.</p>
+      <p>The minimum-cut edge is <var>a</var>-&NoBreak;<var>b</var>. It is marked <strong>bold</strong> wherever it appears.</p>
 
-      <h4>Step A1: contract <var>c</var>–&NoBreak;<var>f</var> (ordinary)</h4>
+      <h4>Step 1: contract <var>c</var>-&NoBreak;<var>f</var></h4>
       <ul>
-        <li>Before: <var>n</var> = 7, <var>m</var> = 8. Edges: <strong><var>a</var>–&NoBreak;<var>b</var></strong>, <var>a</var>–&NoBreak;<var>c</var>, <var>a</var>–&NoBreak;<var>d</var>, <var>b</var>–&NoBreak;<var>g</var>, <var>b</var>–&NoBreak;<var>h</var>, <var>c</var>–&NoBreak;<var>f</var>, <var>d</var>–&NoBreak;<var>f</var>, <var>g</var>–&NoBreak;<var>h</var>.</li>
-        <li><var>P</var>(choose <var>c</var>–&NoBreak;<var>f</var>) = 1/8.</li>
+        <li>Before: <var>n</var> = 7, <var>m</var> = 8. Edges: <strong><var>a</var>-&NoBreak;<var>b</var></strong>, <var>a</var>-&NoBreak;<var>c</var>, <var>a</var>-&NoBreak;<var>d</var>, <var>b</var>-&NoBreak;<var>g</var>, <var>b</var>-&NoBreak;<var>h</var>, <var>c</var>-&NoBreak;<var>f</var>, <var>d</var>-&NoBreak;<var>f</var>, <var>g</var>-&NoBreak;<var>h</var>.</li>
+        <li><var>P</var>(choose <var>c</var>-&NoBreak;<var>f</var>) = 1/8.</li>
         <li>Neighbours of <var>c</var>: <var>a</var>, <var>f</var>. Neighbours of <var>f</var>: <var>c</var>, <var>d</var>. No common neighbour, one copy. This is the <strong>ordinary</strong> case.</li>
-        <li>New vertex {<var>c</var>,&nbsp;<var>f</var>}. The edge <var>a</var>–&NoBreak;<var>c</var> becomes <var>a</var>–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>}, and <var>d</var>–&NoBreak;<var>f</var> becomes {<var>c</var>,&nbsp;<var>f</var>}–&NoBreak;<var>d</var>.</li>
+        <li>New vertex {<var>c</var>,&nbsp;<var>f</var>}. The edge <var>a</var>-&NoBreak;<var>c</var> becomes <var>a</var>-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>}, and <var>d</var>-&NoBreak;<var>f</var> becomes {<var>c</var>,&nbsp;<var>f</var>}-&NoBreak;<var>d</var>.</li>
         <li>After: <var>n</var> = 6, <var>m</var> = 7.
-          <p class="math"><strong><var>a</var>–&NoBreak;<var>b</var></strong>,&ensp;<var>a</var>–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>},&ensp;<var>a</var>–&NoBreak;<var>d</var>,&ensp;<var>b</var>–&NoBreak;<var>g</var>,&ensp;<var>b</var>–&NoBreak;<var>h</var>,&ensp;{<var>c</var>,&nbsp;<var>f</var>}–&NoBreak;<var>d</var>,&ensp;<var>g</var>–&NoBreak;<var>h</var></p>
+          <p class="math"><strong><var>a</var>-&NoBreak;<var>b</var></strong>,&ensp;<var>a</var>-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>},&ensp;<var>a</var>-&NoBreak;<var>d</var>,&ensp;<var>b</var>-&NoBreak;<var>g</var>,&ensp;<var>b</var>-&NoBreak;<var>h</var>,&ensp;{<var>c</var>,&nbsp;<var>f</var>}-&NoBreak;<var>d</var>,&ensp;<var>g</var>-&NoBreak;<var>h</var></p>
         </li>
       </ul>
 
-      <h4>Step A2: contract <var>b</var>–&NoBreak;<var>h</var> (parallel edges created)</h4>
+      <h4>Step 2: contract <var>b</var>-&NoBreak;<var>h</var></h4>
       <ul>
-        <li>Before: <var>n</var> = 6, <var>m</var> = 7. <var>P</var>(choose <var>b</var>–&NoBreak;<var>h</var>) = 1/7.</li>
-        <li>Neighbours of <var>b</var>: <var>a</var>, <var>g</var>, <var>h</var>. Neighbours of <var>h</var>: <var>b</var>, <var>g</var>. <strong>Common neighbour <var>g</var>.</strong> So <var>b</var>–&NoBreak;<var>g</var> and <var>h</var>–&NoBreak;<var>g</var> both become {<var>b</var>,&nbsp;<var>h</var>}–&NoBreak;<var>g</var>, which gives <strong>two parallel edges</strong>. Keep both.</li>
-        <li>The edge <var>a</var>–&NoBreak;<var>b</var> becomes <var>a</var>–&NoBreak;{<var>b</var>,&nbsp;<var>h</var>}. It is still the one minimum-cut edge, just with a new endpoint name.</li>
+        <li>Before: <var>n</var> = 6, <var>m</var> = 7. <var>P</var>(choose <var>b</var>-&NoBreak;<var>h</var>) = 1/7.</li>
+        <li>Neighbours of <var>b</var>: <var>a</var>, <var>g</var>, <var>h</var>. Neighbours of <var>h</var>: <var>b</var>, <var>g</var>. <strong>Common neighbour <var>g</var>.</strong> So <var>b</var>-&NoBreak;<var>g</var> and <var>h</var>-&NoBreak;<var>g</var> both become {<var>b</var>,&nbsp;<var>h</var>}-&NoBreak;<var>g</var>, which gives <strong>two parallel edges</strong>. Keep both.</li>
+        <li>The edge <var>a</var>-&NoBreak;<var>b</var> becomes <var>a</var>-&NoBreak;{<var>b</var>,&nbsp;<var>h</var>}. It is still the one minimum-cut edge, just with a new endpoint name.</li>
         <li>After: <var>n</var> = 5, <var>m</var> = 6.
-          <p class="math"><strong><var>a</var>–&NoBreak;{<var>b</var>,&nbsp;<var>h</var>}</strong>,&ensp;<var>a</var>–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>},&ensp;<var>a</var>–&NoBreak;<var>d</var>,&ensp;{<var>b</var>,&nbsp;<var>h</var>}–&NoBreak;<var>g</var>&nbsp;&times;&nbsp;2,&ensp;{<var>c</var>,&nbsp;<var>f</var>}–&NoBreak;<var>d</var></p>
+          <p class="math"><strong><var>a</var>-&NoBreak;{<var>b</var>,&nbsp;<var>h</var>}</strong>,&ensp;<var>a</var>-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>},&ensp;<var>a</var>-&NoBreak;<var>d</var>,&ensp;{<var>b</var>,&nbsp;<var>h</var>}-&NoBreak;<var>g</var>&nbsp;&times;&nbsp;2,&ensp;{<var>c</var>,&nbsp;<var>f</var>}-&NoBreak;<var>d</var></p>
         </li>
       </ul>
       <div class="callout">
-        <p><strong>Checkpoint 2: probabilities in the current multigraph</strong></p>
-        <p>Using the multigraph after step A2, what is the probability that step A3 contracts <strong>some copy</strong> of {<var>b</var>,&nbsp;<var>h</var>}–&NoBreak;<var>g</var>? What is the probability that it contracts the minimum-cut edge?</p>
+        <p>Using the multigraph after Step 2, what is the probability that Step 3 contracts <strong>some copy</strong> of {<var>b</var>,&nbsp;<var>h</var>}-&NoBreak;<var>g</var>? What is the probability that it contracts the minimum-cut edge?</p>
         <details>
           <summary>Hint</summary>
           <p>Count <var>m</var> for the <em>current</em> multigraph, with each parallel copy counted separately. Do not use the original <var>m</var> = 8.</p>
         </details>
         <details>
           <summary>Model answer</summary>
-          <p><var>m</var> = 6, and {<var>b</var>,&nbsp;<var>h</var>}–&NoBreak;<var>g</var> has 2 copies, so <var>P</var> = 2/6 = 1/3 (each copy alone has probability 1/6). The minimum-cut edge <var>a</var>–&NoBreak;{<var>b</var>,&nbsp;<var>h</var>} has one copy, so it is chosen with probability 1/6.</p>
+          <p><var>m</var> = 6, and {<var>b</var>,&nbsp;<var>h</var>}-&NoBreak;<var>g</var> has 2 copies, so <var>P</var> = 2/6 = 1/3 (each copy alone has probability 1/6). The minimum-cut edge <var>a</var>-&NoBreak;{<var>b</var>,&nbsp;<var>h</var>} has one copy, so it is chosen with probability 1/6.</p>
         </details>
       </div>
 
-      <h4>Step A3: contract {<var>b</var>,&nbsp;<var>h</var>}–&NoBreak;<var>g</var> (self-loop removed)</h4>
+      <h4>Step 3: contract {<var>b</var>,&nbsp;<var>h</var>}-&NoBreak;<var>g</var></h4>
       <ul>
-        <li>Before: <var>n</var> = 5, <var>m</var> = 6. <var>P</var>(choose a copy of {<var>b</var>,&nbsp;<var>h</var>}–&NoBreak;<var>g</var>) = 2/6 = 1/3.</li>
+        <li>Before: <var>n</var> = 5, <var>m</var> = 6. <var>P</var>(choose a copy of {<var>b</var>,&nbsp;<var>h</var>}-&NoBreak;<var>g</var>) = 2/6 = 1/3.</li>
         <li>We contract one copy. The <strong>other copy now joins {<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>} to itself, so it is a self-loop, and it is removed.</strong></li>
         <li>After: <var>n</var> = 4, <var>m</var> = 4. Two edges disappeared: the contracted copy and the self-loop.
-          <p class="math"><strong><var>a</var>–&NoBreak;{<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}</strong>,&ensp;<var>a</var>–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>},&ensp;<var>a</var>–&NoBreak;<var>d</var>,&ensp;{<var>c</var>,&nbsp;<var>f</var>}–&NoBreak;<var>d</var></p>
+          <p class="math"><strong><var>a</var>-&NoBreak;{<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}</strong>,&ensp;<var>a</var>-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>},&ensp;<var>a</var>-&NoBreak;<var>d</var>,&ensp;{<var>c</var>,&nbsp;<var>f</var>}-&NoBreak;<var>d</var></p>
         </li>
       </ul>
       <div class="callout">
-        <p><strong>Checkpoint 3: counting edges</strong></p>
-        <p>Why did <var>m</var> drop from 6 to 4 in step A3, when steps A1 and A2 each reduced <var>m</var> by only 1?</p>
+        <p>Why did <var>m</var> drop from 6 to 4 in Step 3, when Steps 1 and 2 each reduced <var>m</var> by only 1?</p>
         <details>
           <summary>Hint</summary>
           <p>What happens to a parallel copy of the edge you contract?</p>
@@ -178,108 +167,96 @@
         </details>
       </div>
 
-      <h4>Step A4: contract <var>a</var>–&NoBreak;<var>d</var> (parallel edges created)</h4>
+      <h4>Step 4: contract <var>a</var>-&NoBreak;<var>d</var></h4>
       <ul>
-        <li>Before: <var>n</var> = 4, <var>m</var> = 4. <var>P</var>(choose <var>a</var>–&NoBreak;<var>d</var>) = 1/4.</li>
-        <li>Neighbours of <var>a</var>: {<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}, {<var>c</var>,&nbsp;<var>f</var>}, <var>d</var>. Neighbours of <var>d</var>: <var>a</var>, {<var>c</var>,&nbsp;<var>f</var>}. <strong>Common neighbour {<var>c</var>,&nbsp;<var>f</var>}</strong>, so <var>a</var>–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>} and <var>d</var>–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>} become {<var>a</var>,&nbsp;<var>d</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>}&nbsp;&times;&nbsp;2.</li>
+        <li>Before: <var>n</var> = 4, <var>m</var> = 4. <var>P</var>(choose <var>a</var>-&NoBreak;<var>d</var>) = 1/4.</li>
+        <li>Neighbours of <var>a</var>: {<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}, {<var>c</var>,&nbsp;<var>f</var>}, <var>d</var>. Neighbours of <var>d</var>: <var>a</var>, {<var>c</var>,&nbsp;<var>f</var>}. <strong>Common neighbour {<var>c</var>,&nbsp;<var>f</var>}</strong>, so <var>a</var>-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>} and <var>d</var>-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>} become {<var>a</var>,&nbsp;<var>d</var>}-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>}&nbsp;&times;&nbsp;2.</li>
         <li>After: <var>n</var> = 3, <var>m</var> = 3.
-          <p class="math"><strong>{<var>a</var>,&nbsp;<var>d</var>}–&NoBreak;{<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}</strong>,&ensp;{<var>a</var>,&nbsp;<var>d</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>}&nbsp;&times;&nbsp;2</p>
+          <p class="math"><strong>{<var>a</var>,&nbsp;<var>d</var>}-&NoBreak;{<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}</strong>,&ensp;{<var>a</var>,&nbsp;<var>d</var>}-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>}&nbsp;&times;&nbsp;2</p>
         </li>
       </ul>
 
-      <h4>Step A5: contract {<var>a</var>,&nbsp;<var>d</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>} (self-loop removed)</h4>
+      <h4>Step 5: contract {<var>a</var>,&nbsp;<var>d</var>}-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>}</h4>
       <ul>
-        <li>Before: <var>n</var> = 3, <var>m</var> = 3. <var>P</var>(choose a copy of {<var>a</var>,&nbsp;<var>d</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>}) = 2/3.</li>
+        <li>Before: <var>n</var> = 3, <var>m</var> = 3. <var>P</var>(choose a copy of {<var>a</var>,&nbsp;<var>d</var>}-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>}) = 2/3.</li>
         <li>One copy is contracted and the other becomes a self-loop, which is removed.</li>
         <li>After: <var>n</var> = 2, <var>m</var> = 1.
-          <p class="math"><strong>{<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}–&NoBreak;{<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}</strong></p>
+          <p class="math"><strong>{<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}-&NoBreak;{<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}</strong></p>
         </li>
       </ul>
-      <p><strong>Result.</strong> The algorithm stops at 2 vertices and returns the cut {<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}&nbsp;|&nbsp;{<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>} with <strong>one</strong> crossing edge (the original <var>a</var>–&NoBreak;<var>b</var>). This is the minimum cut, so the run <strong>succeeds</strong>.</p>
-      <p><strong>Where the three cases occur in trace A:</strong> ordinary in A1; parallel edges created in A2 and A4; self-loops removed in A3 and A5.</p>
+      <p><strong>Result.</strong> The algorithm stops at 2 vertices and returns the cut {<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}&nbsp;|&nbsp;{<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>} with <strong>one</strong> crossing edge (the original <var>a</var>-&NoBreak;<var>b</var>). This is the minimum cut, so the run <strong>succeeds</strong>.</p>
+      <p><strong>Where the three cases occur:</strong> ordinary in Step 1; parallel edges created in Step 2 and Step 4; self-loops removed in Step 3 and Step 5.</p>
       <p>The probability of following exactly this sequence of choices is 1/8 &middot; 1/7 &middot; 1/3 &middot; 1/4 &middot; 2/3 = 1/1008. This is <strong>not</strong> the success probability. Many other sequences also succeed (<a href="#p1-5">§5</a>).</p>
 
-      <h3 id="p1-4">4. Worked trace B: a run that fails</h3>
+      <h3 id="p1-4">4. Worked trace B: Failed Run</h3>
 
-      <h4>Step B1: contract <var>g</var>–&NoBreak;<var>h</var> (parallel edges created)</h4>
+      <h4>Step 1: contract <var>g</var>-&NoBreak;<var>h</var></h4>
       <ul>
         <li>Before: <var>n</var> = 7, <var>m</var> = 8. <var>P</var> = 1/8.</li>
-        <li>Common neighbour of <var>g</var> and <var>h</var>: <var>b</var>. So <var>b</var>–&NoBreak;<var>g</var> and <var>b</var>–&NoBreak;<var>h</var> become <var>b</var>–&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}&nbsp;&times;&nbsp;2.</li>
+        <li>Common neighbour of <var>g</var> and <var>h</var>: <var>b</var>. So <var>b</var>-&NoBreak;<var>g</var> and <var>b</var>-&NoBreak;<var>h</var> become <var>b</var>-&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}&nbsp;&times;&nbsp;2.</li>
         <li>After: <var>n</var> = 6, <var>m</var> = 7.
-          <p class="math"><strong><var>a</var>–&NoBreak;<var>b</var></strong>,&ensp;<var>a</var>–&NoBreak;<var>c</var>,&ensp;<var>a</var>–&NoBreak;<var>d</var>,&ensp;<var>b</var>–&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}&nbsp;&times;&nbsp;2,&ensp;<var>c</var>–&NoBreak;<var>f</var>,&ensp;<var>d</var>–&NoBreak;<var>f</var></p>
+          <p class="math"><strong><var>a</var>-&NoBreak;<var>b</var></strong>,&ensp;<var>a</var>-&NoBreak;<var>c</var>,&ensp;<var>a</var>-&NoBreak;<var>d</var>,&ensp;<var>b</var>-&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}&nbsp;&times;&nbsp;2,&ensp;<var>c</var>-&NoBreak;<var>f</var>,&ensp;<var>d</var>-&NoBreak;<var>f</var></p>
         </li>
       </ul>
 
-      <h4>Step B2: contract <var>a</var>–&NoBreak;<var>b</var> (ordinary). This is the minimum-cut edge</h4>
+      <h4>Step 2: contract <var>a</var>-&NoBreak;<var>b</var>. This is the minimum-cut edge</h4>
       <ul>
-        <li>Before: <var>n</var> = 6, <var>m</var> = 7. <var>P</var>(choose <var>a</var>–&NoBreak;<var>b</var>) = 1/7.</li>
-        <li>Neighbours of <var>a</var>: <var>b</var>, <var>c</var>, <var>d</var>. Neighbours of <var>b</var>: <var>a</var>, {<var>g</var>,&nbsp;<var>h</var>}. No common neighbour, one copy. This is the <strong>ordinary</strong> case. (The edges <var>b</var>–&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}&nbsp;&times;&nbsp;2 were already parallel. They are carried over as {<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}&nbsp;&times;&nbsp;2, not newly created.)</li>
+        <li>Before: <var>n</var> = 6, <var>m</var> = 7. <var>P</var>(choose <var>a</var>-&NoBreak;<var>b</var>) = 1/7.</li>
+        <li>Neighbours of <var>a</var>: <var>b</var>, <var>c</var>, <var>d</var>. Neighbours of <var>b</var>: <var>a</var>, {<var>g</var>,&nbsp;<var>h</var>}. No common neighbour, one copy. This is the <strong>ordinary</strong> case.</li>
         <li>After: <var>n</var> = 5, <var>m</var> = 6.
-          <p class="math">{<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;<var>c</var>,&ensp;{<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;<var>d</var>,&ensp;{<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}&nbsp;&times;&nbsp;2,&ensp;<var>c</var>–&NoBreak;<var>f</var>,&ensp;<var>d</var>–&NoBreak;<var>f</var></p>
+          <p class="math">{<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;<var>c</var>,&ensp;{<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;<var>d</var>,&ensp;{<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}&nbsp;&times;&nbsp;2,&ensp;<var>c</var>-&NoBreak;<var>f</var>,&ensp;<var>d</var>-&NoBreak;<var>f</var></p>
         </li>
-        <li><strong>The run is now doomed.</strong> Vertices <var>a</var> and <var>b</var> are inside the same composite vertex, and composite vertices only ever grow. So <var>a</var> and <var>b</var> end up on the same side of the final cut, and the final cut can never be {<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}&nbsp;|&nbsp;{<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}.</li>
+        <li><strong>The run is now failed.</strong> Vertices <var>a</var> and <var>b</var> are inside the same composite vertex, and composite vertices only ever grow. So <var>a</var> and <var>b</var> end up on the same side of the final cut, and the final cut can never be {<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}&nbsp;|&nbsp;{<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}.</li>
       </ul>
       <div class="callout">
-        <p><strong>Checkpoint 4: when is a run lost?</strong></p>
-        <p>After step B2, is there <strong>any</strong> way to finish the run (any choice of the remaining 3 contractions) that returns the minimum cut? Which kind of cut must be returned instead?</p>
+        <p>After Step 2, is there any way to finish the run (any choice of the remaining 3 contractions) that returns the minimum cut? Which kind of cut must be returned instead?</p>
         <details>
           <summary>Hint</summary>
           <p>Where can <var>a</var> and <var>b</var> end up in the final 2-vertex graph?</p>
         </details>
         <details>
           <summary>Model answer</summary>
-          <p>No. Every remaining sequence returns a cut with <var>a</var> and <var>b</var> on the same side, so it never returns the unique minimum cut. The run <strong>failed at step B2</strong>, the moment the cut edge was contracted. Nothing after that matters for success. Conversely, a run that <strong>never</strong> contracts <var>a</var>–&NoBreak;<var>b</var> must end with {<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>} and {<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>} as its two vertices, because contractions inside one side never merge the two sides, and the algorithm stops at 2 vertices. So:</p>
+          <p>No. Every remaining sequence returns a cut with <var>a</var> and <var>b</var> on the same side, so it never returns the unique minimum cut. The run <strong>failed at step B2</strong>, the moment the cut edge was contracted. Nothing after that matters for success. Conversely, a run that <strong>never</strong> contracts <var>a</var>-&NoBreak;<var>b</var> must end with {<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>} and {<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>} as its two vertices, because contractions inside one side never merge the two sides, and the algorithm stops at 2 vertices. So:</p>
           <p class="math">run succeeds&ensp;&hArr;&ensp;no minimum-cut edge is ever contracted.</p>
         </details>
       </div>
 
-      <h4>Step B3: contract <var>c</var>–&NoBreak;<var>f</var> (ordinary)</h4>
+      <h4>Step 3: contract <var>c</var>-&NoBreak;<var>f</var></h4>
       <ul>
         <li>Before: <var>n</var> = 5, <var>m</var> = 6. <var>P</var> = 1/6.</li>
-        <li>Neighbours of <var>c</var>: {<var>a</var>,&nbsp;<var>b</var>}, <var>f</var>. Neighbours of <var>f</var>: <var>c</var>, <var>d</var>. No common neighbour, one copy, so this is <strong>ordinary</strong>.</li>
+        <li>Neighbours of <var>c</var>: {<var>a</var>,&nbsp;<var>b</var>}, <var>f</var>. Neighbours of <var>f</var>: <var>c</var>, <var>d</var>. Again, this is <strong>ordinary</strong>.</li>
         <li>After: <var>n</var> = 4, <var>m</var> = 5.
-          <p class="math">{<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>},&ensp;{<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;<var>d</var>,&ensp;{<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}&nbsp;&times;&nbsp;2,&ensp;{<var>c</var>,&nbsp;<var>f</var>}–&NoBreak;<var>d</var></p>
+          <p class="math">{<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>},&ensp;{<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;<var>d</var>,&ensp;{<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}&nbsp;&times;&nbsp;2,&ensp;{<var>c</var>,&nbsp;<var>f</var>}-&NoBreak;<var>d</var></p>
         </li>
       </ul>
 
-      <h4>Step B4: contract {<var>c</var>,&nbsp;<var>f</var>}–&NoBreak;<var>d</var> (parallel edges created)</h4>
+      <h4>Step 4: contract {<var>c</var>,&nbsp;<var>f</var>}-&NoBreak;<var>d</var></h4>
       <ul>
         <li>Before: <var>n</var> = 4, <var>m</var> = 5. <var>P</var> = 1/5.</li>
-        <li>Common neighbour {<var>a</var>,&nbsp;<var>b</var>}, so {<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>} and {<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;<var>d</var> become {<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}&nbsp;&times;&nbsp;2.</li>
+        <li>Common neighbour {<var>a</var>,&nbsp;<var>b</var>}, so {<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;{<var>c</var>,&nbsp;<var>f</var>} and {<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;<var>d</var> become {<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;{<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}&nbsp;&times;&nbsp;2.</li>
         <li>After: <var>n</var> = 3, <var>m</var> = 4.
-          <p class="math">{<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}&nbsp;&times;&nbsp;2,&ensp;{<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}&nbsp;&times;&nbsp;2</p>
+          <p class="math">{<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;{<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}&nbsp;&times;&nbsp;2,&ensp;{<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}&nbsp;&times;&nbsp;2</p>
         </li>
       </ul>
 
-      <h4>Step B5: contract {<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;{<var>g</var>,&nbsp;<var>h</var>} (self-loop removed)</h4>
+      <h4>Step 5: contract {<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;{<var>g</var>,&nbsp;<var>h</var>}</h4>
       <ul>
         <li>Before: <var>n</var> = 3, <var>m</var> = 4. <var>P</var>(choose a copy) = 2/4 = 1/2.</li>
         <li>One copy is contracted and the other becomes a self-loop, which is removed.</li>
         <li>After: <var>n</var> = 2, <var>m</var> = 2.
-          <p class="math">{<var>a</var>,&nbsp;<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}&nbsp;&times;&nbsp;2</p>
+          <p class="math">{<var>a</var>,&nbsp;<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}-&NoBreak;{<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}&nbsp;&times;&nbsp;2</p>
         </li>
       </ul>
-      <p><strong>Result.</strong> The algorithm returns {<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}&nbsp;|&nbsp;{<var>a</var>,&nbsp;<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}. Its crossing edges in the original graph are <var>a</var>–&NoBreak;<var>c</var> and <var>a</var>–&NoBreak;<var>d</var>, so its <strong>value is 2</strong>, the number of parallel copies left at the end. This is a valid cut, but not a minimum one (<var>k</var>&nbsp;=&nbsp;1), so the run <strong>fails</strong>. That is the Monte Carlo behaviour: the running time is fixed, and the answer can be wrong.</p>
-      <p>(Had step B5 contracted a copy of {<var>a</var>,&nbsp;<var>b</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>} instead, the result would have been {<var>g</var>,&nbsp;<var>h</var>}&nbsp;|&nbsp;{<var>a</var>,&nbsp;<var>b</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}, also of value 2. Either way the run fails.)</p>
-      <p><strong>Where the three cases occur in trace B:</strong> ordinary in B2 and B3; parallel edges created in B1 and B4; self-loops removed in B5.</p>
+      <p><strong>Result.</strong> The algorithm returns {<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}&nbsp;|&nbsp;{<var>a</var>,&nbsp;<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}. Its crossing edges in the original graph are <var>a</var>-&NoBreak;<var>c</var> and <var>a</var>-&NoBreak;<var>d</var>, so its <strong>value is 2</strong>, the number of parallel copies left at the end. This is a valid cut, but not a minimum one (<var>k</var>&nbsp;=&nbsp;1), so the run <strong>fails</strong>. That is the Monte Carlo behaviour: the running time is fixed, and the answer can be wrong.</p>
+      <p>(Had Step 5 contracted a copy of {<var>a</var>,&nbsp;<var>b</var>}-&NoBreak;{<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>} instead, the result would have been {<var>g</var>,&nbsp;<var>h</var>}&nbsp;|&nbsp;{<var>a</var>,&nbsp;<var>b</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}, also of value 2. Either way the run fails.)</p>
+      <p><strong>Where the three cases occur:</strong> ordinary in Steps 2 and 3; parallel edges created in Steps 1 andB4; self-loops removed in Step 5.</p>
       <p>The probability of this exact sequence is 1/8 &middot; 1/7 &middot; 1/6 &middot; 1/5 &middot; 1/2 = 1/3360.</p>
-      <p><strong>Common misconceptions while tracing</strong></p>
-      <ul>
-        <li><strong>Merging parallel edges into one.</strong> This changes every later probability, and it can make a failed run look successful. In trace B, merging would leave a single edge {<var>a</var>,&nbsp;<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>} at the end, and you would wrongly report a cut of value 1. The true value is 2. In trace A, step A3 would be computed as 1/5 instead of the correct 2/6.</li>
-        <li><strong>Keeping self-loops.</strong> In trace A after step A3, a kept loop on {<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>} would give <var>m</var> = 5 and <var>P</var>(<var>a</var>–&NoBreak;<var>d</var>) = 1/5 instead of 1/4. A self-loop is not a choosable edge, because contracting it would not reduce <var>n</var>.</li>
-        <li><strong>Using the original graph's probabilities.</strong> The probability is <var>&mu;</var>/<var>m</var> for the <strong>current</strong> <var>m</var>. It is not 1/8 at every step.</li>
-        <li><strong>Choosing uniformly among vertex <em>pairs</em> instead of edges.</strong> In step A5 there are two adjacent pairs, but <var>P</var>({<var>a</var>,&nbsp;<var>d</var>}–&NoBreak;{<var>c</var>,&nbsp;<var>f</var>}) = 2/3, not 1/2, because it has two copies.</li>
-        <li><strong>Confusing contracted edges with cut edges.</strong> The edges you contract end up <strong>inside</strong> the two sides. The cut is formed by the edges <strong>left over</strong> at the end. In trace A we contracted 5 edges (and removed 2 self-loops), and the cut is the 1 remaining edge.</li>
-        <li><strong>"The run failed at the last step."</strong> In trace B the failure happened at step B2. Steps B3 to B5 only decided <em>which</em> wrong cut came out.</li>
-      </ul>
-
       <h3 id="p1-5">5. Probability analysis</h3>
 
-      <h4 id="p1-5-1">5.1 Step-by-step along trace A</h4>
-      <p>Let <var>n</var><sub><var>i</var></sub> and <var>m</var><sub><var>i</var></sub> be the number of vertices and edges <strong>just before</strong> step <var>i</var>. As long as no cut edge has been contracted, all <var>k</var> minimum-cut edges are still present (here, the single edge <var>a</var>–&NoBreak;<var>b</var> under its current name). So</p>
+      <h4 id="p1-5-1">5.1 Step-by-step along Successful Run Trace</h4>
+      <p>Let <var>n</var><sub><var>i</var></sub> and <var>m</var><sub><var>i</var></sub> be the number of vertices and edges <strong>just before</strong> step <var>i</var>. As long as no cut edge has been contracted, all <var>k</var> minimum-cut edges are still present. So</p>
       <p class="math"><var>P</var>(step <var>i</var> avoids the min cut&nbsp;|&nbsp;steps 1..<var>i</var>&nbsp;&minus;&nbsp;1 avoided it) = 1 &minus; <var>k</var>/<var>m</var><sub><var>i</var></sub>.</p>
       <div class="callout">
-        <p><strong>Checkpoint 5: compare with the general bound</strong></p>
         <p>Fill in the column 1 &minus; <var>k</var>/<var>m</var><sub><var>i</var></sub> for trace A, and compare it with 1 &minus; 2/<var>n</var><sub><var>i</var></sub>. Why is every entry at least 1 &minus; 2/<var>n</var><sub><var>i</var></sub>?</p>
         <details>
           <summary>Hint</summary>
@@ -306,39 +283,38 @@
           <p><strong>Why this graph does better.</strong> Every cut of <var>G</var> other than the minimum one has value &ge; 2 = 2<var>k</var>. Before the last step, at most one vertex can have degree 1 (the composite vertex {<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>} or {<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>}, once a whole side has merged). Every other vertex has degree &ge; 2. So 2<var>m</var><sub><var>i</var></sub> &ge; 2(<var>n</var><sub><var>i</var></sub>&nbsp;&minus;&nbsp;1) + 1, i.e. <var>m</var><sub><var>i</var></sub> &ge; <var>n</var><sub><var>i</var></sub>, and <var>P</var>(avoid) &ge; 1 &minus; 1/<var>n</var><sub><var>i</var></sub>. This bound is attained in A4 and A5.</p>
         </details>
       </div>
-      <p>Note that the product 5/16 is the probability of avoiding <var>a</var>–&NoBreak;<var>b</var> <strong>along the multigraphs of trace A</strong>. Different runs pass through different multigraphs with different <var>m</var><sub><var>i</var></sub>, so the true success probability averages over all of them (next subsection).</p>
+      <p>Note that the product 5/16 is the probability of avoiding <var>a</var>-&NoBreak;<var>b</var> <strong>along the multigraphs of trace A</strong>. Different runs pass through different multigraphs with different <var>m</var><sub><var>i</var></sub>, so the true success probability averages over all of them.</p>
 
-      <h4 id="p1-5-2">5.2 The exact single-run success probability</h4>
-      <p><strong>Method 1 (computer, exhaustive).</strong> <code>karger_verify.py</code> computes it in two independent ways:</p>
+      <h4 id="p1-5-2">5.2 Exact Single Run Success Probability</h4>
+      <p><strong>Method 1. Computations:</strong></p>
       <ul>
         <li><strong>Exhaustive enumeration</strong> of every possible sequence of edge-copy choices (5040 sequences, each weighted by its probability &prod; 1/<var>m</var><sub><var>i</var></sub>).</li>
-        <li><strong>Dynamic programming</strong> over the 119 reachable partitions of <var>V</var>. From each partition, every pair <var>X</var>–&NoBreak;<var>Y</var> with multiplicity <var>&mu;</var> is taken with probability <var>&mu;</var>/<var>m</var>.</li>
+        <li><strong>Dynamic programming</strong> over the 119 reachable partitions of <var>V</var>. From each partition, every pair <var>X</var>-&NoBreak;<var>Y</var> with multiplicity <var>&mu;</var> is taken with probability <var>&mu;</var>/<var>m</var>.</li>
       </ul>
       <p>Both give</p>
       <p class="math"><span class="boxed"><var>P</var>(one run returns the minimum cut) = 9/28 &asymp; 0.3214</span></p>
-      <p><strong>Method 2 (by hand, optional).</strong> There is an equivalent way to run Karger's algorithm: shuffle the 8 original edges into a uniformly random order, then go through the list. Contract each edge unless it has already become a self-loop (then skip it), and stop at 2 vertices. This is the same process because at every moment the edges not yet looked at are in uniformly random order. So the next one that is not a self-loop is uniformly distributed over the non-loop unseen edges, and those are exactly the edges of the current multigraph.</p>
-      <p>In this view, the run succeeds exactly when, by the time <var>a</var>–&NoBreak;<var>b</var> comes up in the list, both sides are already single vertices (so the algorithm has stopped). The 4-cycle side is connected by any 3 of its 4 edges, and the triangle side by any 2 of its 3 edges. Let <var>j</var> be the number of edges before <var>a</var>–&NoBreak;<var>b</var> in the shuffled list. Then <var>j</var> is uniform on {0, &hellip;, 7}, and the <var>j</var> edges before it are a uniformly random <var>j</var>-subset of the other 7:</p>
+      <p><strong>Method 2. By Hand:</strong> There is an equivalent way to run Karger's algorithm: shuffle the 8 original edges into a uniformly random order, then go through the list. Contract each edge unless it has already become a self-loop, and stop at 2 vertices. This is the same process because at every moment the edges not yet looked at are in uniformly random order. So the next one that is not a self-loop is uniformly distributed over the non-loop unseen edges, and those are exactly the edges of the current multigraph.</p>
+      <p>In this view, the run succeeds exactly when, by the time <var>a</var>-&NoBreak;<var>b</var> comes up in the list, both sides are already single vertices (so the algorithm has stopped). The 4-cycle side is connected by any 3 of its 4 edges, and the triangle side by any 2 of its 3 edges. Let <var>j</var> be the number of edges before <var>a</var>-&NoBreak;<var>b</var> in the shuffled list. Then <var>j</var> is uniform on {0, &hellip;, 7}, and the <var>j</var> edges before it are a uniformly random <var>j</var>-subset of the other 7:</p>
       <ul>
         <li><var>j</var> &le; 4: impossible (we need 3 + 2 = 5 edges).</li>
         <li><var>j</var> = 5: we need exactly 3 cycle edges and 2 triangle edges: C(4,&nbsp;3) &middot; C(3,&nbsp;2)&nbsp;/&nbsp;C(7,&nbsp;5) = 12/21 = 4/7.</li>
         <li><var>j</var> = 6 or 7: always fine.</li>
       </ul>
-      <p class="math"><var>P</var> = 1/8 &middot; (4/7&nbsp;+&nbsp;1&nbsp;+&nbsp;1) = 18/56 = 9/28. &check;</p>
-      <p><strong>Where the failures go.</strong> The exact output distribution (from the DP) is:</p>
+      <p class="math"><var>P</var> = 1/8 &middot; (4/7&nbsp;+&nbsp;1&nbsp;+&nbsp;1) = 18/56 = 9/28.</p>
+      <p>The exact output distribution from the DP is:</p>
       <div class="table-scroll">
         <table>
           <thead>
             <tr><th>returned cut</th><th>value</th><th>probability</th></tr>
           </thead>
           <tbody>
-            <tr><td>{<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}&nbsp;|&nbsp;{<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>} (minimum)</td><td>1</td><td>9/28 &asymp; 0.321</td></tr>
+            <tr><td>{<var>b</var>,&nbsp;<var>g</var>,&nbsp;<var>h</var>}&nbsp;|&nbsp;{<var>a</var>,&nbsp;<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>} - minimum</td><td>1</td><td>9/28 &asymp; 0.321</td></tr>
             <tr><td>{<var>g</var>}, {<var>h</var>}, {<var>g</var>,&nbsp;<var>h</var>} vs the rest</td><td>2</td><td>1/12 each, so 1/4 in total</td></tr>
             <tr><td>{<var>c</var>}, {<var>d</var>}, {<var>f</var>}, {<var>c</var>,&nbsp;<var>f</var>}, {<var>d</var>,&nbsp;<var>f</var>}, {<var>c</var>,&nbsp;<var>d</var>,&nbsp;<var>f</var>} vs the rest</td><td>2</td><td>1/14 each, so 3/7 in total</td></tr>
           </tbody>
         </table>
       </div>
-      <p>Every failed run returns a cut of value 2, never more.</p>
-      <p><strong>Monte Carlo check.</strong> 100,000 simulated runs (seed 3821) succeeded with frequency 0.32116. The standard error is &radic;(<var>p</var>(1&nbsp;&minus;&nbsp;<var>p</var>)/<var>N</var>) &asymp; 0.0015, so this is 0.18 standard errors from 9/28. It agrees.</p>
+      <p>100,000 simulated runs succeeded with frequency 0.32116. The standard error is &radic;(<var>p</var>(1&nbsp;&minus;&nbsp;<var>p</var>)/<var>N</var>) &asymp; 0.0015, so this is 0.18 standard errors from 9/28. It agrees.</p>
 
       <h4 id="p1-5-3">5.3 Comparison with 2&nbsp;/&nbsp;(<var>n</var>(<var>n</var>&nbsp;&minus;&nbsp;1))</h4>
       <p class="math">2&nbsp;/&nbsp;(<var>n</var>(<var>n</var>&nbsp;&minus;&nbsp;1)) = 2/42 = 1/21 &asymp; 0.048&emsp;&le;&emsp;2/7 &asymp; 0.286&emsp;&le;&emsp;9/28 &asymp; 0.321.</p>
@@ -347,23 +323,16 @@
         <li>every non-minimum cut has value &ge; 2<var>k</var>, so almost every vertex has degree &ge; 2<var>k</var> and <var>m</var><sub><var>i</var></sub> &ge; <var>n</var><sub><var>i</var></sub>, twice the worst case. This alone raises the guarantee to 2/7;</li>
         <li>many reachable multigraphs have even more edges than <var>n</var><sub><var>i</var></sub> (e.g. <var>m</var> = 8 &gt; 7 at the start), so the true value 9/28 is higher still.</li>
       </ol>
-      <p><strong>Common misconceptions in the probability analysis</strong></p>
-      <ul>
-        <li><em>"5/16 (the product along trace A) is the success probability."</em> It is only for one particular path of multigraphs. The answer must average over all runs: 9/28.</li>
-        <li><em>"1/1008 is the success probability."</em> That is the probability of one exact sequence of choices.</li>
-        <li><em>"2&nbsp;/&nbsp;(<var>n</var>(<var>n</var>&nbsp;&minus;&nbsp;1)) is the success probability."</em> It is a lower bound valid for <strong>every</strong> graph. A specific graph can (and usually does) do much better.</li>
-        <li><em>"<var>P</var>(avoid at step <var>i</var>) = 1 &minus; <var>k</var>/<var>m</var> with the original <var>m</var>."</em> It must use the <strong>current</strong> <var>m</var><sub><var>i</var></sub>, which shrinks, so later steps are riskier.</li>
-      </ul>
 
       <h4 id="p1-5-4">5.4 Looking ahead</h4>
       <p>A single run succeeds only with probability 9/28. Since runs are independent, repeating the algorithm and keeping the smallest cut found drives the failure probability down quickly. How many repetitions are needed in general is the topic of <a href="#problem-2">Problem 2</a>.</p>
 
-      <h3 id="p1-6">6. Unguided follow-up (try it yourself)</h3>
+      <h3 id="p1-6">6. Unguided Problem</h3>
       <p>Let <var>H</var> have vertices <var>p</var>, <var>q</var>, <var>r</var>, <var>s</var>, <var>t</var> and edges</p>
-      <p class="math"><var>p</var>–&NoBreak;<var>q</var>,&ensp;<var>p</var>–&NoBreak;<var>r</var>,&ensp;<var>p</var>–&NoBreak;<var>s</var>,&ensp;<var>q</var>–&NoBreak;<var>r</var>,&ensp;<var>q</var>–&NoBreak;<var>s</var>,&ensp;<var>r</var>–&NoBreak;<var>s</var>,&ensp;<var>p</var>–&NoBreak;<var>t</var>,&ensp;<var>q</var>–&NoBreak;<var>t</var>&emsp;(<var>n</var>&nbsp;=&nbsp;5,&nbsp;<var>m</var>&nbsp;=&nbsp;8).</p>
+      <p class="math"><var>p</var>-&NoBreak;<var>q</var>,&ensp;<var>p</var>-&NoBreak;<var>r</var>,&ensp;<var>p</var>-&NoBreak;<var>s</var>,&ensp;<var>q</var>-&NoBreak;<var>r</var>,&ensp;<var>q</var>-&NoBreak;<var>s</var>,&ensp;<var>r</var>-&NoBreak;<var>s</var>,&ensp;<var>p</var>-&NoBreak;<var>t</var>,&ensp;<var>q</var>-&NoBreak;<var>t</var>&emsp;(<var>n</var>&nbsp;=&nbsp;5,&nbsp;<var>m</var>&nbsp;=&nbsp;8).</p>
       <ol>
         <li>Find the minimum cut of <var>H</var> and <var>k</var>. Is it unique?</li>
-        <li>Trace Karger's algorithm with the sequence <var>r</var>–&NoBreak;<var>s</var>, <var>p</var>–&NoBreak;<var>q</var>, {<var>p</var>,&nbsp;<var>q</var>}–&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}. At each step give the probability of the choice, the new multigraph, and the contraction case(s). Does the run succeed?</li>
+        <li>Trace Karger's algorithm with the sequence <var>r</var>-&NoBreak;<var>s</var>, <var>p</var>-&NoBreak;<var>q</var>, {<var>p</var>,&nbsp;<var>q</var>}-&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}. At each step give the probability of the choice, the new multigraph, and the contraction case(s). Does the run succeed?</li>
         <li>Give <var>P</var>(avoid) at each step of your trace, multiply them, and compare with 2&nbsp;/&nbsp;(<var>n</var>(<var>n</var>&nbsp;&minus;&nbsp;1)).</li>
         <li>Find a 3-step sequence that fails, and state the cut it returns and its value.</li>
         <li><em>(Challenge)</em> Find the exact single-run success probability. (Hint: use the random-order view from <a href="#p1-5-2">§5.2</a>. <var>K</var><sub>4</sub> has 16 spanning trees.)</li>
@@ -372,7 +341,7 @@
 
       <h3 id="p1-7">7. Sources</h3>
       <ol>
-        <li>D. R. Karger and C. Stein, "A new approach to the minimum cut problem", <em>Journal of the ACM</em> 43(4):601–640, 1996. doi:10.1145/234533.234534. Source of the contraction algorithm's analysis and the C(<var>n</var>,&nbsp;2)<sup>&minus;1</sup> = 2&nbsp;/&nbsp;(<var>n</var>(<var>n</var>&nbsp;&minus;&nbsp;1)) bound.</li>
+        <li>D. R. Karger and C. Stein, "A new approach to the minimum cut problem", <em>Journal of the ACM</em> 43(4):601-640, 1996. doi:10.1145/234533.234534. Source of the contraction algorithm's analysis and the C(<var>n</var>,&nbsp;2)<sup>&minus;1</sup> = 2&nbsp;/&nbsp;(<var>n</var>(<var>n</var>&nbsp;&minus;&nbsp;1)) bound.</li>
         <li>H. Yu, <a href="https://www.cs.princeton.edu/~hy2/teaching/fall25-cos521/notes/mincut.pdf"><em>COS 521: Advanced Algorithm Design, Lecture 1: Karger's Min Cut Algorithm</em></a>, Princeton University, Fall 2025. Contraction keeps multi-edges and drops self-loops; Lemma 1 (|<var>E</var>|&nbsp;&ge;&nbsp;<var>n</var><var>k</var>/2), Corollary 2 (1 &minus; 2/<var>n</var> per step), Theorem 3 (&ge;&nbsp;2&nbsp;/&nbsp;(<var>n</var>(<var>n</var>&nbsp;&minus;&nbsp;1))).</li>
         <li>D. R. Karger, "Global min-cuts in RNC, and other ramifications of a simple min-cut algorithm", <em>Proc. 4th ACM-SIAM SODA</em>, 1993. The original contraction algorithm (cited as "Karger 1993" in source 2).</li>
         <li>J. Kleinberg and É. Tardos, <em>Algorithm Design</em>, Pearson, 2006, §13.2 "Finding the Global Minimum Cut". Background reading at an undergraduate level.</li>
@@ -384,7 +353,7 @@
       <div class="callout">
         <details>
           <summary>Show answers</summary>
-          <p><strong>1.</strong> deg&nbsp;<var>t</var> = 2, while <var>p</var>, <var>q</var> have degree 4 and <var>r</var>, <var>s</var> have degree 3. Brute force over 2<sup>4</sup> &minus; 1 = 15 cuts gives values {2: 1, 3: 2, 4: 5, 5: 6, 6: 1}. The unique minimum cut is {<var>t</var>}&nbsp;|&nbsp;{<var>p</var>,&nbsp;<var>q</var>,&nbsp;<var>r</var>,&nbsp;<var>s</var>} with <var>k</var> = 2 (cut edges <var>p</var>–&NoBreak;<var>t</var>, <var>q</var>–&NoBreak;<var>t</var>). Unlike <var>G</var>, here the minimum cut <strong>is</strong> a single vertex. Compare the two!</p>
+          <p><strong>1.</strong> deg&nbsp;<var>t</var> = 2, while <var>p</var>, <var>q</var> have degree 4 and <var>r</var>, <var>s</var> have degree 3. Brute force over 2<sup>4</sup> &minus; 1 = 15 cuts gives values {2: 1, 3: 2, 4: 5, 5: 6, 6: 1}. The unique minimum cut is {<var>t</var>}&nbsp;|&nbsp;{<var>p</var>,&nbsp;<var>q</var>,&nbsp;<var>r</var>,&nbsp;<var>s</var>} with <var>k</var> = 2 (cut edges <var>p</var>-&NoBreak;<var>t</var>, <var>q</var>-&NoBreak;<var>t</var>). Unlike <var>G</var>, here the minimum cut <strong>is</strong> a single vertex. Compare the two!</p>
           <p><strong>2.</strong></p>
           <div class="table-scroll">
             <table>
@@ -392,16 +361,16 @@
                 <tr><th>step</th><th>before (<var>n</var>, <var>m</var>)</th><th>contract</th><th><var>P</var></th><th>case(s)</th><th>after</th></tr>
               </thead>
               <tbody>
-                <tr><td>1</td><td>5, 8</td><td><var>r</var>–&NoBreak;<var>s</var></td><td>1/8</td><td>parallel created (common neighbours <var>p</var> and <var>q</var>)</td><td><var>p</var>–&NoBreak;<var>q</var>, <var>p</var>–&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;2, <var>p</var>–&NoBreak;<var>t</var>, <var>q</var>–&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;2, <var>q</var>–&NoBreak;<var>t</var> (<var>m</var>&nbsp;=&nbsp;7)</td></tr>
-                <tr><td>2</td><td>4, 7</td><td><var>p</var>–&NoBreak;<var>q</var></td><td>1/7</td><td>parallel created (common neighbours {<var>r</var>,&nbsp;<var>s</var>} and <var>t</var>)</td><td>{<var>p</var>,&nbsp;<var>q</var>}–&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;4, {<var>p</var>,&nbsp;<var>q</var>}–&NoBreak;<var>t</var>&nbsp;&times;&nbsp;2 (<var>m</var>&nbsp;=&nbsp;6)</td></tr>
-                <tr><td>3</td><td>3, 6</td><td>{<var>p</var>,&nbsp;<var>q</var>}–&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}</td><td>4/6&nbsp;=&nbsp;2/3</td><td>self-loops removed (3 of them)</td><td>{<var>p</var>,&nbsp;<var>q</var>,&nbsp;<var>r</var>,&nbsp;<var>s</var>}–&NoBreak;<var>t</var>&nbsp;&times;&nbsp;2 (<var>m</var>&nbsp;=&nbsp;2)</td></tr>
+                <tr><td>1</td><td>5, 8</td><td><var>r</var>-&NoBreak;<var>s</var></td><td>1/8</td><td>parallel created (common neighbours <var>p</var> and <var>q</var>)</td><td><var>p</var>-&NoBreak;<var>q</var>, <var>p</var>-&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;2, <var>p</var>-&NoBreak;<var>t</var>, <var>q</var>-&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;2, <var>q</var>-&NoBreak;<var>t</var> (<var>m</var>&nbsp;=&nbsp;7)</td></tr>
+                <tr><td>2</td><td>4, 7</td><td><var>p</var>-&NoBreak;<var>q</var></td><td>1/7</td><td>parallel created (common neighbours {<var>r</var>,&nbsp;<var>s</var>} and <var>t</var>)</td><td>{<var>p</var>,&nbsp;<var>q</var>}-&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;4, {<var>p</var>,&nbsp;<var>q</var>}-&NoBreak;<var>t</var>&nbsp;&times;&nbsp;2 (<var>m</var>&nbsp;=&nbsp;6)</td></tr>
+                <tr><td>3</td><td>3, 6</td><td>{<var>p</var>,&nbsp;<var>q</var>}-&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}</td><td>4/6&nbsp;=&nbsp;2/3</td><td>self-loops removed (3 of them)</td><td>{<var>p</var>,&nbsp;<var>q</var>,&nbsp;<var>r</var>,&nbsp;<var>s</var>}-&NoBreak;<var>t</var>&nbsp;&times;&nbsp;2 (<var>m</var>&nbsp;=&nbsp;2)</td></tr>
               </tbody>
             </table>
           </div>
           <p>It returns {<var>t</var>}&nbsp;|&nbsp;{<var>p</var>,&nbsp;<var>q</var>,&nbsp;<var>r</var>,&nbsp;<var>s</var>} with value 2, so it <strong>succeeds</strong>. (There is no ordinary step: every edge of <var>H</var> lies in a triangle.)</p>
           <p><strong>3.</strong> <var>P</var>(avoid) = 1 &minus; 2/<var>m</var><sub><var>i</var></sub>: 6/8, 5/7, 4/6. The product is 5/14 &asymp; 0.357. The bound is 2/(5&nbsp;&middot;&nbsp;4) = 1/10.</p>
-          <p><strong>4.</strong> For example <var>p</var>–&NoBreak;<var>t</var> (1/8; this contracts a cut edge, so the run fails here; common neighbour <var>q</var> gives {<var>p</var>,&nbsp;<var>t</var>}–&NoBreak;<var>q</var>&nbsp;&times;&nbsp;2), then <var>r</var>–&NoBreak;<var>s</var> (1/7; gives {<var>p</var>,&nbsp;<var>t</var>}–&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;2, <var>q</var>–&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;2), then {<var>p</var>,&nbsp;<var>t</var>}–&NoBreak;<var>q</var> (2/6; one self-loop removed, and since {<var>r</var>,&nbsp;<var>s</var>} is a common neighbour, {<var>p</var>,&nbsp;<var>t</var>}–&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;2 and <var>q</var>–&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;2 all become {<var>p</var>,&nbsp;<var>q</var>,&nbsp;<var>t</var>}–&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}, giving &times;4; both self-loop and parallel cases at once). It returns {<var>r</var>,&nbsp;<var>s</var>}&nbsp;|&nbsp;{<var>p</var>,&nbsp;<var>q</var>,&nbsp;<var>t</var>} with <strong>value 4</strong>.</p>
-          <p><strong>5.</strong> 23/70 &asymp; 0.329 (DP, enumeration and Monte Carlo agree; &ge; 1/10 ✓). By hand: in a random order of the 8 edges, the run succeeds iff the <var>K</var><sub>4</sub> edges appearing before the <strong>first</strong> of <var>p</var>–&NoBreak;<var>t</var>, <var>q</var>–&NoBreak;<var>t</var> already connect {<var>p</var>,&nbsp;<var>q</var>,&nbsp;<var>r</var>,&nbsp;<var>s</var>}. If exactly <var>j</var> <var>K</var><sub>4</sub>-edges come first, the probability of that is (7&nbsp;&minus;&nbsp;<var>j</var>)/28, and the <var>j</var> edges connect <var>K</var><sub>4</sub> with probability 16/20 for <var>j</var> = 3 and 1 for <var>j</var> &ge; 4 (<var>K</var><sub>4</sub> is 3-edge-connected). So <var>P</var> = 4/28 &middot; 16/20 + (3&nbsp;+&nbsp;2&nbsp;+&nbsp;1)/28 = 23/70.</p>
+          <p><strong>4.</strong> For example <var>p</var>-&NoBreak;<var>t</var> (1/8; this contracts a cut edge, so the run fails here; common neighbour <var>q</var> gives {<var>p</var>,&nbsp;<var>t</var>}-&NoBreak;<var>q</var>&nbsp;&times;&nbsp;2), then <var>r</var>-&NoBreak;<var>s</var> (1/7; gives {<var>p</var>,&nbsp;<var>t</var>}-&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;2, <var>q</var>-&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;2), then {<var>p</var>,&nbsp;<var>t</var>}-&NoBreak;<var>q</var> (2/6; one self-loop removed, and since {<var>r</var>,&nbsp;<var>s</var>} is a common neighbour, {<var>p</var>,&nbsp;<var>t</var>}-&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;2 and <var>q</var>-&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}&nbsp;&times;&nbsp;2 all become {<var>p</var>,&nbsp;<var>q</var>,&nbsp;<var>t</var>}-&NoBreak;{<var>r</var>,&nbsp;<var>s</var>}, giving &times;4; both self-loop and parallel cases at once). It returns {<var>r</var>,&nbsp;<var>s</var>}&nbsp;|&nbsp;{<var>p</var>,&nbsp;<var>q</var>,&nbsp;<var>t</var>} with <strong>value 4</strong>.</p>
+          <p><strong>5.</strong> 23/70 &asymp; 0.329 (DP, enumeration and Monte Carlo agree; &ge; 1/10 ✓). By hand: in a random order of the 8 edges, the run succeeds iff the <var>K</var><sub>4</sub> edges appearing before the <strong>first</strong> of <var>p</var>-&NoBreak;<var>t</var>, <var>q</var>-&NoBreak;<var>t</var> already connect {<var>p</var>,&nbsp;<var>q</var>,&nbsp;<var>r</var>,&nbsp;<var>s</var>}. If exactly <var>j</var> <var>K</var><sub>4</sub>-edges come first, the probability of that is (7&nbsp;&minus;&nbsp;<var>j</var>)/28, and the <var>j</var> edges connect <var>K</var><sub>4</sub> with probability 16/20 for <var>j</var> = 3 and 1 for <var>j</var> &ge; 4 (<var>K</var><sub>4</sub> is 3-edge-connected). So <var>P</var> = 4/28 &middot; 16/20 + (3&nbsp;+&nbsp;2&nbsp;+&nbsp;1)/28 = 23/70.</p>
         </details>
       </div>
     </section>
@@ -421,14 +390,14 @@
       <p><strong>Notation.</strong> A <em>run</em> starts from the original graph and contracts edges until two blocks of original vertices remain. The cut size is the number of original edges crossing between the blocks, counting parallel copies separately. For a connected, undirected, unweighted graph <var>J</var> with <var>n</var> &ge; 2 vertices, write <var>k</var> for the global minimum cut size and <var>p</var> for the probability that one run returns a cut of size <var>k</var>. Let <var>T</var> &ge; 1 be an integer number of runs and 0 &lt; <var>&delta;</var> &lt; 1 the largest acceptable probability of final failure.</p>
 
       <h3 id="p2-1">1. The problem</h3>
-      <p>Use the same graph <var>G</var> as in <a href="#problem-1">Problem 1</a>. Call the cuts returned by Trace A and Trace B <strong>A</strong> and <strong>B</strong>, respectively. Cut A is the unique minimum cut, with size 1 and crossing edge <var>a</var>–&NoBreak;<var>b</var>. Cut B has size 2. The exact probability that one full run on <var>G</var> returns a minimum cut is <var>p</var><sub><var>G</var></sub> = 9/28 (Problem 1, <a href="#p1-2">§§2–4</a> and <a href="#p1-5-2">§5.2</a>).</p>
+      <p>Use the same graph <var>G</var> as in <a href="#problem-1">Problem 1</a>. Call the cuts returned by Trace A and Trace B <strong>A</strong> and <strong>B</strong>, respectively. Cut A is the unique minimum cut, with size 1 and crossing edge <var>a</var>-&NoBreak;<var>b</var>. Cut B has size 2. The exact probability that one full run on <var>G</var> returns a minimum cut is <var>p</var><sub><var>G</var></sub> = 9/28 (Problem 1, <a href="#p1-2">§2-4</a> and <a href="#p1-5-2">§5.2</a>).</p>
       <p>In the first problem, each contraction changed the graph for the next step. Here, each completed run gives us one candidate cut, and a new run starts again on the original graph.</p>
       <p><strong>Questions.</strong></p>
       <ol>
-        <li><strong>(Choosing the output)</strong> Suppose three complete runs on <var>G</var> return B, A, B in that order. Using the returned cuts and their sizes, give a rule for which cut to keep after each run. Apply it to this sequence. Then prove for any input <var>J</var> that the rule returns a global minimum cut if and only if some run does.</li>
-        <li><strong>(Independent runs and a replay)</strong> Use the shuffled-edge description from Problem 1's <a href="#p1-5-2">§5.2</a>. Compare two runs on <var>G</var> with independently shuffled edge orders to two runs that use the same randomly shuffled order. In each case, identify the event that makes the final cut fail and give its probability. Extend the independent case to <var>T</var> runs on <var>J</var>.</li>
-        <li><strong>(Exact run count)</strong> Use the known <var>p</var><sub><var>G</var></sub> and the exact failure probability from Question 2 to find the least positive integer <var>T</var> that gives failure probability at most <var>&delta;</var> on <var>G</var>. Prove minimality and state the corresponding rule for a graph with known <var>p</var>.</li>
-        <li><strong>(A guarantee from <var>n</var>)</strong> Suppose <var>p</var> is unknown. You know that on an <var>n</var>-vertex graph, one run returns any <em>fixed</em> minimum cut with probability at least <var>p</var><sub>0</sub> = 2&nbsp;/&nbsp;(<var>n</var>(<var>n</var>&nbsp;&minus;&nbsp;1)). Use this bound to give a sufficient integer <var>T</var> in terms of <var>n</var> and <var>&delta;</var>. Explain why it gives a guarantee even when the exact run count is unknown.</li>
+        <li>Suppose three complete runs on <var>G</var> return B, A, B in that order. Using the returned cuts and their sizes, give a rule for which cut to keep after each run. Apply it to this sequence. Then prove for any input <var>J</var> that the rule returns a global minimum cut if and only if some run does.</li>
+        <li>Use the shuffled-edge description from Problem 1's <a href="#p1-5-2">§5.2</a>. Compare two runs on <var>G</var> with independently shuffled edge orders to two runs that use the same randomly shuffled order. In each case, identify the event that makes the final cut fail and give its probability. Extend the independent case to <var>T</var> runs on <var>J</var>.</li>
+        <li>Use the known <var>p</var><sub><var>G</var></sub> and the exact failure probability from Question 2 to find the least positive integer <var>T</var> that gives failure probability at most <var>&delta;</var> on <var>G</var>. Prove minimality and state the corresponding rule for a graph with known <var>p</var>.</li>
+        <li>Suppose <var>p</var> is unknown. You know that on an <var>n</var>-vertex graph, one run returns any <em>fixed</em> minimum cut with probability at least <var>p</var><sub>0</sub> = 2&nbsp;/&nbsp;(<var>n</var>(<var>n</var>&nbsp;&minus;&nbsp;1)). Use this bound to give a sufficient integer <var>T</var> in terms of <var>n</var> and <var>&delta;</var>. Explain why it gives a guarantee even when the exact run count is unknown.</li>
       </ol>
 
       <h3 id="p2-2">2. Worked selection: keep the smallest cut seen</h3>
@@ -446,7 +415,6 @@
         </table>
       </div>
       <div class="callout">
-        <p><strong>Checkpoint 1: what if two cuts tie?</strong></p>
         <p>Suppose two runs return different partitions with the same cut size. Can choosing one over the other change whether the selected cut is a global minimum cut?</p>
         <details>
           <summary>Hint</summary>
@@ -457,15 +425,14 @@
           <p>Two valid cuts with the same size have the same status. If their size is <var>k</var>, both are global minimum cuts. If their size exceeds <var>k</var>, neither is.</p>
         </details>
       </div>
-      <p><strong>Why the rule works.</strong> The two blocks left by a run partition the original vertices. The edges still crossing between those blocks are exactly the original edges crossing that partition. Thus each run returns a valid cut of the original graph. This correspondence is described in <a href="https://courses.cs.washington.edu/courses/cse525/13sp/slides/KargerStein.pdf">Karger and Stein, §2, pp. 609–610</a>.</p>
+      <p><strong>Why the rule works.</strong> The two blocks left by a run partition the original vertices. The edges still crossing between those blocks are exactly the original edges crossing that partition. Thus each run returns a valid cut of the original graph. This correspondence is described in <a href="https://courses.cs.washington.edu/courses/cse525/13sp/slides/KargerStein.pdf">Karger and Stein, §2, pp. 609-610</a>.</p>
       <p>Let <var>X</var><sub><var>i</var></sub> be the size returned by run <var>i</var>. Each <var>X</var><sub><var>i</var></sub> &ge; <var>k</var>, and the size kept after <var>T</var> runs is <var class="hat">k</var><sub><var>T</var></sub> = min<sub>1&le;<var>i</var>&le;<var>T</var></sub>&nbsp;<var>X</var><sub><var>i</var></sub>. If any run returns size <var>k</var>, then <var class="hat">k</var><sub><var>T</var></sub> = <var>k</var>. Conversely, the minimum of a finite list is attained by an entry, so <var class="hat">k</var><sub><var>T</var></sub> = <var>k</var> implies that some <var>X</var><sub><var>i</var></sub> = <var>k</var>. Therefore</p>
       <p class="math">{<var class="hat">k</var><sub><var>T</var></sub> = <var>k</var>} = &bigcup;<sub><var>i</var>=1..<var>T</var></sub> {<var>X</var><sub><var>i</var></sub> = <var>k</var>}.</p>
       <p>The rule compares cut sizes to one another. The true size <var>k</var> serves as the benchmark in the proof.</p>
 
-      <h3 id="p2-3">3. Worked comparison: fresh randomness and a replay</h3>
+      <h3 id="p2-3">3. Worked comparison</h3>
       <p>Write <var>F</var><sub><var>i</var></sub> = {<var>X</var><sub><var>i</var></sub> &gt; <var>k</var>} for failure of run <var>i</var>. By <a href="#p2-2">§2</a>, the retained cut after two runs fails exactly when both runs fail. On <var>G</var>, each individual run has failure probability <var>q</var><sub><var>G</var></sub> = 1 &minus; <var>p</var><sub><var>G</var></sub> in either setup in Question 2.</p>
       <div class="callout">
-        <p><strong>Checkpoint 2: what changes when we replay an edge order?</strong></p>
         <p>In both setups the first run fails with probability <var>q</var><sub><var>G</var></sub>. Given that it fails, what is the probability that the second run fails in each setup?</p>
         <details>
           <summary>Hint</summary>
@@ -493,10 +460,9 @@
       <p class="math"><var>P</var>(<var class="hat">k</var><sub><var>T</var></sub>&nbsp;&gt;&nbsp;<var>k</var>) = <var>P</var>(&bigcap;<sub><var>i</var>=1..<var>T</var></sub>&nbsp;<var>F</var><sub><var>i</var></sub>) = &prod;<sub><var>i</var>=1..<var>T</var></sub> <var>P</var>(<var>F</var><sub><var>i</var></sub>) = (1&nbsp;&minus;&nbsp;<var>p</var>)<sup><var>T</var></sup>.</p>
       <p>Hence the exact success probability is 1 &minus; (1&nbsp;&minus;&nbsp;<var>p</var>)<sup><var>T</var></sup>. For <var>G</var> it is 1 &minus; (1&nbsp;&minus;&nbsp;9/28)<sup><var>T</var></sup>. When 0 &lt; <var>p</var> &lt; 1, each additional independent run multiplies the remaining failure probability by 1 &minus; <var>p</var>, which is strictly between zero and one. This is the amplification step in <a href="https://ccanonne.github.io/files/compx270-chap5.pdf">Canonne, Algorithm 11 and its analysis, p. 63</a>.</p>
 
-      <h3 id="p2-4">4. Worked derivation: find the least number of runs on <var>G</var></h3>
+      <h3 id="p2-4">4. Worked derivation: Find the least number of runs on <var>G</var></h3>
       <p>To achieve failure probability at most <var>&delta;</var> on <var>G</var>, the exact condition from <a href="#p2-3">§3</a> is <var>q</var><sub><var>G</var></sub><sup><var>T</var></sup> &le; <var>&delta;</var>.</p>
       <div class="callout">
-        <p><strong>Checkpoint 3: which way does the inequality go?</strong></p>
         <p>Taking logarithms gives <var>T</var> ln&nbsp;<var>q</var><sub><var>G</var></sub> &le; ln&nbsp;<var>&delta;</var>. What is the sign of ln&nbsp;<var>q</var><sub><var>G</var></sub>? After dividing, is the condition a lower or an upper bound on <var>T</var>?</p>
         <details>
           <summary>Hint</summary>
@@ -513,10 +479,9 @@
       <p class="math"><var>T</var><sub>min</sub>(<var>p</var>,&nbsp;<var>&delta;</var>) = &lceil;ln(1/<var>&delta;</var>)&nbsp;/&nbsp;[&minus;ln(1&nbsp;&minus;&nbsp;<var>p</var>)]&rceil;.</p>
       <p>When <var>p</var> = 1, one run suffices. These least-count formulas follow by solving the exact failure condition from <a href="https://ccanonne.github.io/files/compx270-chap5.pdf">Canonne's analysis of Algorithm 11</a>.</p>
 
-      <h3 id="p2-5">5. Worked derivation: guarantee success from the graph size</h3>
+      <h3 id="p2-5">5. Worked derivation: Guarantee success from the graph size</h3>
       <p>The one-run probability of returning a particular minimum cut is at least <var>p</var><sub>0</sub> = 1/C(<var>n</var>,&nbsp;2) = 2&nbsp;/&nbsp;(<var>n</var>(<var>n</var>&nbsp;&minus;&nbsp;1)). This is the bound in Problem 1's <a href="#p1-5-3">§5.3</a>. See <a href="https://courses.cs.washington.edu/courses/cse525/13sp/slides/KargerStein.pdf">Karger and Stein, Theorem 2.2</a> and <a href="https://www.cs.princeton.edu/~hy2/teaching/fall25-cos521/notes/mincut.pdf">Yu, Theorem 3</a>.</p>
       <div class="callout">
-        <p><strong>Checkpoint 4: a fixed minimum cut and any minimum cut</strong></p>
         <p>Fix one minimum cut <var>C</var>*. Which event contains the other: returning <var>C</var>*, or returning a global minimum cut? What does that tell us about <var>p</var>?</p>
         <details>
           <summary>Hint</summary>
@@ -535,7 +500,7 @@
       <p class="math"><var>T</var><sub>pow</sub>(<var>n</var>,&nbsp;<var>&delta;</var>) = &lceil;ln(1/<var>&delta;</var>)&nbsp;/&nbsp;[&minus;ln(1&nbsp;&minus;&nbsp;<var>p</var><sub>0</sub>)]&rceil;.</p>
       <p>For <var>n</var> = 2 the bound forces <var>p</var> = 1, and one run suffices. For larger graphs both counts certify the target using only <var>n</var> and <var>&delta;</var>. The graph's actual least count depends on <var>p</var>. For example, with <var>&delta;</var> = <var>n</var><sup>&minus;<var>c</var></sup> for a fixed <var>c</var> &gt; 0, the exponential certificate uses <var>O</var>(<var>n</var><sup>2</sup>&nbsp;ln&nbsp;<var>n</var>) runs, the regime in <a href="https://people.csail.mit.edu/karger/Papers/mincut.pdf">Karger, Corollary 2.1</a>.</p>
 
-      <h3 id="p2-6">6. Unguided follow-up (try it yourself)</h3>
+      <h3 id="p2-6">6. Unguided Problem</h3>
       <p>Return to the graph <var>H</var> from Problem 1's <a href="#p1-6">§6</a>. Write <var>n</var><sub><var>H</var></sub> = |<var>V</var>(<var>H</var>)|, <var>p</var><sub><var>H</var></sub> for the exact single-run success probability, and <var>p</var><sub>0</sub> = 1/C(<var>n</var><sub><var>H</var></sub>,&nbsp;2). Use the symbolic relation 0 &lt; <var>p</var><sub>0</sub> &le; <var>p</var><sub><var>H</var></sub> &lt; 1 and an arbitrary target 0 &lt; <var>&delta;</var> &lt; 1.</p>
       <ol>
         <li>Prove that <var>T</var><sub>min</sub>(<var>p</var><sub><var>H</var></sub>,&nbsp;<var>&delta;</var>) &le; <var>T</var><sub>pow</sub>(<var>n</var><sub><var>H</var></sub>,&nbsp;<var>&delta;</var>) &le; <var>T</var><sub>exp</sub>(<var>n</var><sub><var>H</var></sub>,&nbsp;<var>&delta;</var>).</li>
@@ -545,10 +510,10 @@
 
       <h3 id="p2-7">7. Sources</h3>
       <ol>
-        <li>D. R. Karger and C. Stein. <a href="https://courses.cs.washington.edu/courses/cse525/13sp/slides/KargerStein.pdf"><em>A New Approach to the Minimum Cut Problem</em></a>. <em>Journal of the ACM</em> 43(4), 601–640, 1996. DOI: 10.1145/234533.234534. Section 2 describes the cut returned by a complete run. Theorem 2.2 gives the bound for a fixed minimum cut. The opening of §4 explains why returning the smallest cut from repeated runs fails only when all runs fail.</li>
+        <li>D. R. Karger and C. Stein. <a href="https://courses.cs.washington.edu/courses/cse525/13sp/slides/KargerStein.pdf"><em>A New Approach to the Minimum Cut Problem</em></a>. <em>Journal of the ACM</em> 43(4), 601-640, 1996. DOI: 10.1145/234533.234534. Section 2 describes the cut returned by a complete run. Theorem 2.2 gives the bound for a fixed minimum cut. The opening of §4 explains why returning the smallest cut from repeated runs fails only when all runs fail.</li>
         <li>H. Yu. <a href="https://www.cs.princeton.edu/~hy2/teaching/fall25-cos521/notes/mincut.pdf"><em>COS 521: Advanced Algorithm Design, Lecture 1: Karger's Min Cut Algorithm</em></a>. Princeton University, Fall 2025. Section 2 specifies independent restarts and the choice of the smallest returned cut. Theorem 3 states the single-run bound.</li>
         <li>C. Canonne. <a href="https://ccanonne.github.io/files/compx270-chap5.pdf"><em>Randomised and Advanced Algorithms, Lecture 5: Graph Algorithms</em></a>. COMP4270/COMP5270, University of Sydney. Algorithm 11 and its analysis on p. 63 give the exact all-failure probability, its exponential upper bound, and a sufficient repetition count for a target failure probability.</li>
-        <li>D. R. Karger. <a href="https://people.csail.mit.edu/karger/Papers/mincut.pdf"><em>Global Min-Cuts in RNC, and Other Ramifications of a Simple Min-Cut Algorithm</em></a>. SODA, 21–30, 1993. Section 2 of the author manuscript gives the random edge-order interpretation and Corollary 2.1 on independent repetitions.</li>
+        <li>D. R. Karger. <a href="https://people.csail.mit.edu/karger/Papers/mincut.pdf"><em>Global Min-Cuts in RNC, and Other Ramifications of a Simple Min-Cut Algorithm</em></a>. SODA, 21-30, 1993. Section 2 of the author manuscript gives the random edge-order interpretation and Corollary 2.1 on independent repetitions.</li>
         <li><a href="#problem-1"><em>Problem 1: Tracing Karger's Algorithm by Hand</em></a>. Companion problem for the specific inputs <var>G</var> and <var>H</var>, the outputs of Trace A and Trace B, and the exact value <var>p</var><sub><var>G</var></sub> = 9/28.</li>
       </ol>
 
